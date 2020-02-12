@@ -1,13 +1,4 @@
-#
-# Artificial intelligence - Project 1
-# Computer Engeneering - Semester 9
-# Genetic Algoritm - Using Roullete or Tornment method
-# Date February 09, 2020
-#
-from project_1.control.functions import checkIfUserTypeOnlyDigits
-
-
-def getValuesFromUser():
+def get_values_from_user():
     chromossomeSize = input('Inform a chromossome size: ')
     populationSize = input('Inform a population size: ')
     crossingProbability = input('Inform a crossing possibility: ')
@@ -21,20 +12,20 @@ def getValuesFromUser():
         tournmentSize = input('Inform the tournment size: ')
     elitismSize = input('Inform the elitism size: ')
     quantityOfCrossing = input('Inform the quantity of crossing: ')
-    return checkIfUserTypeOnlyDigits(chromossomeSize, populationSize, crossingProbability,
+    return check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProbability,
                                      mutationProbability, methodOfSelection, elitismSize,
                                      quantityOfCrossing, quantityOfGeneration)
 
 
-def runGeneticAlgoritm():
-    inputResult = getValuesFromUser()
-    if not inputResult:
-        print('Ops, something went wrong')
-    else:
-        print('Success !')
-    return
-
-
-runGeneticAlgoritm()
-
+def check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProbability, mutationProbability,
+                              methodOfSelection, elitismSize, quantityOfCrossing, quantityOfGeneration):
+    if not chromossomeSize.isdigit(): return False
+    if not populationSize.isdigit(): return False
+    if not crossingProbability.isdigit(): return False
+    if not mutationProbability.isdigit(): return False
+    if not methodOfSelection.isdigit(): return False
+    if not elitismSize.isdigit(): return False
+    if not quantityOfCrossing.isdigit(): return False
+    if not quantityOfGeneration.isdigit(): return False
+    return True
 
