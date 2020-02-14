@@ -1,21 +1,3 @@
-def get_values_from_user():
-    chromossomeSize = input('Inform a chromossome size: ')
-    populationSize = input('Inform a population size: ')
-    crossingProbability = input('Inform a crossing possibility: ')
-    mutationProbability = input('Inform a mutation probability: ')
-    quantityOfGeneration = input('Inform the quantity of generations: ')
-    methodOfSelection = (input('Inform a selection method to the algoritm \n 1 - Roullete \n 2 - Tournment \n'))
-    if not (methodOfSelection.isdigit() and (methodOfSelection == '1' or methodOfSelection == '2')):
-        print('Invalid option !')
-        return False
-    if methodOfSelection == '2':
-        tournmentSize = input('Inform the tournment size: ')
-    elitismSize = input('Inform the elitism size: ')
-    quantityOfCrossing = input('Inform the quantity of crossing: ')
-    return check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProbability,
-                                     mutationProbability, methodOfSelection, elitismSize,
-                                     quantityOfCrossing, quantityOfGeneration)
-
 
 def check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProbability, mutationProbability,
                               methodOfSelection, elitismSize, quantityOfCrossing, quantityOfGeneration):
@@ -29,3 +11,25 @@ def check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProb
     if not quantityOfGeneration.isdigit(): return False
     return True
 
+def format_binary_code(binaryCode):
+    #getting only the binari part of 0b0101010
+    binaryString = str(binaryCode).split("b")[1]
+    for i in range(8-len(binaryString)):
+        binaryString = "0" + binaryString
+    return binaryString
+
+def calculate_fitness(value_x, value_y):
+    import math
+    result = 21.5 + value_x*math.sin(4*math.pi*value_x) + value_y*math.sin(20*math.pi*value_y)
+    
+def calculate_roulette_probability(fitness_value, fitness_summation):
+    probability = fitness_value/fitness_summation
+    return probability
+
+def make_crossover(genetic_algoritm):
+
+    pass
+
+def make_mutation(cromossome):
+    
+    pass
