@@ -7,8 +7,9 @@
 
 from project1.view.user_input import get_values_from_user
 from project1.model.GeneticAlgoritm import GeneticAlgoritm
+from project1.model.Chromossome import Chromossome
 import random
-from project1.control.functions import format_binary_code
+from project1.control.functions import *
 
 def run_genetic_algoritm():
     #creating genetic algoritm object class
@@ -25,8 +26,8 @@ def run_genetic_algoritm():
     #generating chromossome list
     chromossomeBinaryList = []
 
+    maxValue = 2**inputResult.chromossomeSize
     for item in range(int(inputResult.populationSize)):
-        maxValue = 2**inputResult.chromossomeSize
         #print("----" + str(maxValue) + "----")
         randomValue = random.randrange(maxValue)
         binaryCode = bin(randomValue)
@@ -37,6 +38,21 @@ def run_genetic_algoritm():
 
     #converting the chromossome and populate the current list
     for item in chromossomeBinaryList:
-        inputResult.currentChromossomeList.append(format_binary_code(item))
-    
+        newChromossome = Chromossome(format_binary_code(item, inputResult.chromossomeSize))
+        binX, binY = newChromossome.geneticCode[:int(len(newChromossome.geneticCode)/2)] , newChromossome.geneticCode[int(len(newChromossome.geneticCode)/2):]
+        realX = inputResult.getConvertionFromBinaryToRealX(binX)
+        realY = inputResult.getConvertionFromBinaryToRealY(binY)
+        #print(newChromossome.geneticCode,binX, binY)
+        fitness = calculate_fitness(realX, realY)
+        print(realX, '\t' ,realY, '\t' ,fitness)
+
+        newChromossome.setFitness(fitness)
+
+        inputResult.currentChromossomeList.append(newChromossome)
+
+    #inputResult.printChromossomes()
+
+
+
+
 

@@ -2,7 +2,8 @@ class GeneticAlgoritm:
 
     currentChromossomeList = []
     bestChromossome = ""
-
+    bestChromossomeGeneration = ""
+    bestChromossomeFitness = 0
 
     def __init__(self, chromossomeSize, populationSize, crossingProbability,
      mutationProbability,methodOfSelection, elitismSize,
@@ -18,15 +19,32 @@ class GeneticAlgoritm:
         self.minSpanX = -3.1
         self.maxSpanX = 12.1
         self.minSpanY = 4.1
-        self.minSpanY = 5.8
+        self.maxSpanY = 5.8
 
     def setTournmentSize(self, tournmentSize):
         self.tournmentSize = int(tournmentSize)
 
     def getConvertionFromBinaryToRealX(self, numberOnBaseTen):
-        numberConverted = self.minSpanX + ((self.maxSpanX - self.minSpanX)/(2^self.chromossomeSize - 1))* int(numberOnBaseTen, 2)
+        numberConverted = self.minSpanX + ((self.maxSpanX - self.minSpanX)/(2**(self.chromossomeSize/2) - 1))* int(numberOnBaseTen, 2)
         return numberConverted
     
+    #TO DO
     def getConvertionFromBinaryToRealY(self, numberOnBaseTen):
-        numberConverted = self.minSpanY + ((self.maxSpanY - self.minSpanY)/(2^self.chromossomeSize - 1))* int(numberOnBaseTen, 2)
+        numberConverted = self.minSpanY + ((self.maxSpanY - self.minSpanY)/(2**(self.chromossomeSize/2) - 1))* int(numberOnBaseTen, 2)
         return numberConverted
+
+    def setBestChromossome(self, newChromossome, generation, fitness):
+        self.bestChromossome = newChromossome
+        self.bestChromossomeGeneration = generation
+        self.bestChromossomeFitness = fitness
+        print(
+            "CURRENT BEST CHRMOSSOME: " + newChromossome + 
+            "\nGeneration: " + str(generation) + 
+            "Fitness" + str(fitness) 
+        )
+    
+    def printChromossomes(self):
+        for i in self.currentChromossomeList:
+            print(str(i.geneticCode) + " - F: " + str(i.fitness))
+
+

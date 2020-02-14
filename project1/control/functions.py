@@ -11,7 +11,7 @@ def check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProb
     if not quantityOfGeneration.isdigit(): return False
     return True
 
-def format_binary_code(binaryCode):
+def format_binary_code(binaryCode, chromossomeSize):
     #getting only the binari part of 0b0101010
     binaryString = str(binaryCode).split("b")[1]
     for i in range(8-len(binaryString)):
@@ -26,8 +26,16 @@ def calculate_roulette_probability(fitness_value, fitness_summation):
     probability = fitness_value/fitness_summation
     return probability
 
-def make_crossover(genetic_algoritm):
 
+
+def make_crossover(genetic_algoritm):
+    
+    if genetic_algoritm.quantityOfCrossing == 1:
+
+        pass
+    elif genetic_algoritm.quantityOfCrossing == 2:
+
+        pass
     pass
 
 def make_mutation(cromossome):
