@@ -21,6 +21,7 @@ def format_binary_code(binaryCode, chromossomeSize):
 def calculate_fitness(value_x, value_y):
     import math
     result = 21.5 + value_x*math.sin(4*math.pi*value_x) + value_y*math.sin(20*math.pi*value_y)
+    return result
     
 def calculate_roulette_probability(fitness_value, fitness_summation):
     probability = fitness_value/fitness_summation

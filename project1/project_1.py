@@ -50,7 +50,7 @@ def run_genetic_algoritm():
 
         inputResult.currentChromossomeList.append(newChromossome)
 
-    #inputResult.printChromossomes()
+    inputResult.printChromossomes()
 
 
 
