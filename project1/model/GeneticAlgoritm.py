@@ -42,6 +42,12 @@ class GeneticAlgoritm:
             "\nGeneration: " + str(generation) + 
             "Fitness" + str(fitness) 
         )
+
+    def getTotalFitness(self):
+        total = 0.0
+        for i in self.currentChromossomeList:
+            total += i.fitness
+        return total
     
     def printChromossomes(self):
         for i in self.currentChromossomeList:
