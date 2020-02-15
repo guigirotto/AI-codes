@@ -17,7 +17,7 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult = GeneticAlgoritm(8,40, 1, 1, 1, 1, 1, 1)
+    inputResult = GeneticAlgoritm(8,40, 1, 1, 1, 1, 2, 1)
 
     if not inputResult:
         print('Ops, something went wrong')
@@ -50,9 +50,12 @@ def run_genetic_algoritm():
 
         inputResult.currentChromossomeList.append(newChromossome)
 
-    inputResult.printChromossomes()
+    #inputResult.printChromossomes()
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
-    inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
+    #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
+    test = make_crossover(inputResult)
+    print(test)
+    print(len(test))
 
 
 
