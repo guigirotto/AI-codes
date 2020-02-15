@@ -44,13 +44,15 @@ def run_genetic_algoritm():
         realY = inputResult.getConvertionFromBinaryToRealY(binY)
         #print(newChromossome.geneticCode,binX, binY)
         fitness = calculate_fitness(realX, realY)
-        print(realX, '\t' ,realY, '\t' ,fitness)
+        #print(realX, '\t' ,realY, '\t' ,fitness)
 
         newChromossome.setFitness(fitness)
 
         inputResult.currentChromossomeList.append(newChromossome)
 
     inputResult.printChromossomes()
+    bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
+    inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
 
 
 

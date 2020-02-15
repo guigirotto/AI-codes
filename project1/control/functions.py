@@ -42,3 +42,11 @@ def make_crossover(genetic_algoritm):
 def make_mutation(cromossome):
     
     pass
+
+def get_best_chromossome(chromossomeList):
+    bestChromossome = chromossomeList[0]
+    for item in chromossomeList:
+        if item.fitness >= bestChromossome.fitness:
+            bestChromossome = item
+
+    return bestChromossome
