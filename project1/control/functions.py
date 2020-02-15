@@ -14,7 +14,7 @@ def check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProb
 def format_binary_code(binaryCode, chromossomeSize):
     #getting only the binari part of 0b0101010
     binaryString = str(binaryCode).split("b")[1]
-    for i in range(8-len(binaryString)):
+    for i in range(chromossomeSize - len(binaryString)):
         binaryString = "0" + binaryString
     return binaryString
 
@@ -30,14 +30,54 @@ def calculate_roulette_probability(fitness_value, fitness_summation):
 
 
 def make_crossover(genetic_algoritm):
-    
-    if genetic_algoritm.quantityOfCrossing == 1:
+    import random
 
-        pass
+    firstChromossome = random.randrange(0, genetic_algoritm.populationSize - 1, 1)
+    secondChromossome = random.randrange(0, genetic_algoritm.populationSize - 1, 1)
+    while firstChromossome == secondChromossome:
+        secondChromossome = random.randrange(0, genetic_algoritm.populationSize - 1, 1)
+    
+    firstChromossome = genetic_algoritm.currentChromossomeList[firstChromossome].geneticCode
+    secondChromossome = genetic_algoritm.currentChromossomeList[secondChromossome].geneticCode
+
+    if genetic_algoritm.quantityOfCrossing == 1:
+        firstCrossing = random.randrange(1, genetic_algoritm.chromossomeSize, 1)
+        part1 = firstChromossome[:((firstCrossing))]
+        part2 = secondChromossome[((firstCrossing)):]
+        return part1 + part2
+        
     elif genetic_algoritm.quantityOfCrossing == 2:
 
-        pass
-    pass
+        firstCrossing = random.randrange(0, genetic_algoritm.chromossomeSize-1, 1)
+        secondCrossing = random.randrange(1, genetic_algoritm.chromossomeSize-1, 1)
+
+        while firstCrossing == secondCrossing:
+            secondCrossing = random.randrange(1, genetic_algoritm.chromossomeSize-1, 1)
+        if firstCrossing > secondCrossing:
+            temp = firstCrossing
+            firstCrossing = secondCrossing
+            secondCrossing = temp
+        """
+        print(
+            firstCrossing, ' - ' ,secondCrossing,
+            "\n"
+        )
+        print(
+            firstChromossome, ' - ' ,secondChromossome,
+            "\n"
+        )
+        """
+        part1, part3 = firstChromossome[:((firstCrossing))] , firstChromossome[((secondCrossing)):]
+        part2 = secondChromossome[((firstCrossing)):((secondCrossing))]
+        '''
+        print(
+            "Cr1 : " + str(firstChromossome) + "\n" +
+            "Cr2 : " + str(secondChromossome) +  "\n" +
+            "Cr3 : " + str(part1)+str(part2)+str(part3)+ "\n"
+        )
+        '''
+        return part1 + part2 + part3
+    
 
 def make_mutation(cromossome):
     
