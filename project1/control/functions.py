@@ -91,9 +91,24 @@ def make_crossover(genetic_algoritm):
 
         return newGeneticCodeList
 
-def make_mutation(cromossome):
+def make_mutation(genetic_algoritm,cromossome):
+    import random
+    cromossomeArray = list(cromossome.geneticCode)
+    for i in range(len(cromossomeArray)):
+        probability = random.randint(1,100)
+        
     
-    pass
+        if probability < genetic_algoritm.mutationProbability:
+            print("I =" + str(i))
+            if cromossomeArray[i] == '1':
+                cromossomeArray[i] = '0'
+
+            elif cromossomeArray[i] == '0':
+                cromossomeArray[i] = '1'
+            
+        cromossome.geneticCode = "".join(cromossomeArray)
+
+    return cromossome
 
 def get_best_chromossome(chromossomeList):
     bestChromossome = chromossomeList[0]
