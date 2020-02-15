@@ -44,13 +44,21 @@ def run_genetic_algoritm():
         realY = inputResult.getConvertionFromBinaryToRealY(binY)
         #print(newChromossome.geneticCode,binX, binY)
         fitness = calculate_fitness(realX, realY)
-        print(realX, '\t' ,realY, '\t' ,fitness)
+        #print(realX, '\t' ,realY, '\t' ,fitness)
 
         newChromossome.setFitness(fitness)
 
         inputResult.currentChromossomeList.append(newChromossome)
 
+    #inputResult.printChromossomes()
+    newListOfChromossome = []
+    for i in range(inputResult.populationSize):
+        newListOfChromossome.append(Chromossome(make_crossover(inputResult)))
+
+    inputResult.currentChromossomeList = newListOfChromossome.copy()
     inputResult.printChromossomes()
+
+
 
 
 
