@@ -40,7 +40,7 @@ class GeneticAlgoritm:
         print(
             "CURRENT BEST CHRMOSSOME: " + newChromossome + 
             "\nGeneration: " + str(generation) + 
-            "Fitness" + str(fitness) 
+            "\nFitness: " + str(fitness) 
         )
 
     def getTotalFitness(self):
