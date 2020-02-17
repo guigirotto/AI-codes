@@ -117,3 +117,31 @@ def get_best_chromossome(chromossomeList):
             bestChromossome = item
 
     return bestChromossome
+
+def make_tournment_selection(genetic_algoritm):
+    import random
+    from project1.model.Chromossome import Chromossome
+    selectionList = []
+    listOfChromossomes = []
+    populationSize = genetic_algoritm.populationSize
+    index = 0
+    #generating indexes of selection
+    for i in range(genetic_algoritm.tournmentSize):
+        index = random.randint(0,populationSize-1)
+        while index in selectionList:
+            index = random.randint(0,populationSize-1)
+        selectionList.append(index)
+        listOfChromossomes.append(genetic_algoritm.currentChromossomeList[index])
+
+    bestChromossome = Chromossome(0)
+    secondBestChromossome = Chromossome(0)
+    for item in listOfChromossomes:
+        if item.fitness > bestChromossome.fitness:
+            secondBestChromossome = bestChromossome
+            bestChromossome = item
+        elif item.fitness > secondBestChromossome.fitness:
+            secondBestChromossome = item
+    return {
+        'bestChromossome': bestChromossome,
+        'secondBestChromossome': secondBestChromossome
+    }
