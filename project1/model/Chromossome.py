@@ -6,3 +6,6 @@ class Chromossome:
 
     def setFitness(self, newFitness):
         self.fitness = newFitness
+
+    def setProbability(self,newProbability):
+        self.probability = newProbability

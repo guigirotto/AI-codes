@@ -27,23 +27,51 @@ def calculate_roulette_probability(fitness_value, fitness_summation):
     probability = fitness_value/fitness_summation
     return probability
 
+def calculate_fitness_sum(genetic_algorithm):
+    sumFitness = 0
+    for item in genetic_algorithm.currentChromossomeList:
+        sumFitness += item.fitness
+    return sumFitness
 
 
-def make_crossover(genetic_algoritm):
+
+def select_chromossome_for_crossover(genetic_algorithm):
+    import random
+    selectedProb = random.uniform(0,1)
+  
+    
+    for index,item in enumerate(genetic_algorithm.currentChromossomeList):
+        if index == 0:
+            if 0 <= selectedProb < item.probability:
+                selectedChromossome = item
+        elif item == genetic_algorithm.currentChromossomeList[-1]:
+            if genetic_algorithm.currentChromossomeList[index - 1].probability <=  selectedProb <= 1:
+                selectedChromossome = item
+        else:
+            if genetic_algorithm.currentChromossomeList[index - 1].probability <=  selectedProb < item.probability:
+                selectedChromossome = item
+
+   
+    return selectedChromossome
+
+    
+
+
+def make_crossover(genetic_algorithm):
     import random
     newGeneticCodeList=[]
     canAdd = True
-    if genetic_algoritm.quantityOfCrossing == 1:
-        while len(newGeneticCodeList) < genetic_algoritm.populationSize:
+    if genetic_algorithm.quantityOfCrossing == 1:
+        while len(newGeneticCodeList) < genetic_algorithm.populationSize:
             canAdd = True
-            #Need to see if its necessary to put genetic_algoritm.populationSize -1 or just genetic_algoritm.populationSize
-            firstDad = genetic_algoritm.currentChromossomeList[random.randint(0,(genetic_algoritm.populationSize -1))]
-            secondDad = genetic_algoritm.currentChromossomeList[random.randint(0,(genetic_algoritm.populationSize-1))]
+
+            firstDad = select_chromossome_for_crossover(genetic_algorithm)
+            secondDad = select_chromossome_for_crossover(genetic_algorithm)
             #Testing if its the same dad
             while firstDad == secondDad:
-                secondDad = genetic_algoritm.currentChromossomeList[random.randint(0,genetic_algoritm.populationSize -1)]
+                secondDad = select_chromossome_for_crossover(genetic_algorithm)
             #It can't be 0. When we get 0, no separation occurs
-            indexSeparation = random.randint(1,(genetic_algoritm.chromossomeSize -1))
+            indexSeparation = random.randint(1,(genetic_algorithm.chromossomeSize -1))
             
             firstGeneticCode = firstDad.geneticCode[:indexSeparation] + secondDad.geneticCode[indexSeparation:]
             secondGeneticCode = secondDad.geneticCode[:indexSeparation] + firstDad.geneticCode[indexSeparation:]
@@ -63,18 +91,18 @@ def make_crossover(genetic_algoritm):
         return newGeneticCodeList
 
         
-    elif genetic_algoritm.quantityOfCrossing == 2:
-        while len(newGeneticCodeList) < genetic_algoritm.populationSize:
+    elif genetic_algorithm.quantityOfCrossing == 2:
+        while len(newGeneticCodeList) < genetic_algorithm.populationSize:
             canAdd = True
-            #Need to see if its necessary to put genetic_algoritm.populationSize -1 or just genetic_algoritm.populationSize
-            firstDad = genetic_algoritm.currentChromossomeList[random.randint(0,(genetic_algoritm.populationSize -1))]
-            secondDad = genetic_algoritm.currentChromossomeList[random.randint(0,(genetic_algoritm.populationSize-1))]
+            
+            firstDad = select_chromossome_for_crossover(genetic_algorithm)
+            secondDad = select_chromossome_for_crossover(genetic_algorithm)
             #Testing if its the same dad
             while firstDad == secondDad:
-                secondDad = genetic_algoritm.currentChromossomeList[random.randint(0,genetic_algoritm.populationSize -1)]
+                secondDad = select_chromossome_for_crossover(genetic_algorithm)
             #It can't be 0. When we get 0, no separation occurs and It needs to have at least a number higher than the low serapator.
-            indexSeparationLow = random.randint(1,(genetic_algoritm.chromossomeSize -2))
-            indexSeparationHigh = random.randint(indexSeparationLow + 1,(genetic_algoritm.chromossomeSize -1))
+            indexSeparationLow = random.randint(1,(genetic_algorithm.chromossomeSize -2))
+            indexSeparationHigh = random.randint(indexSeparationLow + 1,(genetic_algorithm.chromossomeSize -1))
 
             firstGeneticCode = firstDad.geneticCode[:indexSeparationLow] + secondDad.geneticCode[indexSeparationLow:indexSeparationHigh] + firstDad.geneticCode[indexSeparationHigh:]
             secondGeneticCode = secondDad.geneticCode[:indexSeparationLow] + firstDad.geneticCode[indexSeparationLow:indexSeparationHigh] + secondDad.geneticCode[indexSeparationHigh:]
@@ -91,15 +119,15 @@ def make_crossover(genetic_algoritm):
 
         return newGeneticCodeList
 
-def make_mutation(genetic_algoritm,cromossome):
+def make_mutation(genetic_algorithm,cromossome):
     import random
     cromossomeArray = list(cromossome.geneticCode)
     for i in range(len(cromossomeArray)):
         probability = random.randint(1,100)
         
     
-        if probability < genetic_algoritm.mutationProbability:
-            print("I =" + str(i))
+        if probability < genetic_algorithm.mutationProbability:
+           
             if cromossomeArray[i] == '1':
                 cromossomeArray[i] = '0'
 
