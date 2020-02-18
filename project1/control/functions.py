@@ -54,7 +54,16 @@ def select_chromossome_for_crossover(genetic_algorithm):
    
     return selectedChromossome
 
-    
+def keep_chromossomes_elitism(genetic_algorithm):
+    chromossomeList = genetic_algorithm.currentChromossomeList.copy()
+    chromossomesToStillList = []
+    while len(chromossomesToStillList) < genetic_algorithm.elitismSize:
+        bestChromossome = get_best_chromossome(chromossomeList)
+        chromossomeList.remove(bestChromossome)
+        chromossomesToStillList.append(bestChromossome)
+
+    return chromossomesToStillList    
+
 
 
 def make_crossover(genetic_algorithm):
