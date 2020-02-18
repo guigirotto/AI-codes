@@ -60,7 +60,7 @@ def keep_chromossomes_elitism(genetic_algorithm):
     while len(chromossomesToStillList) < genetic_algorithm.elitismSize:
         bestChromossome = get_best_chromossome(chromossomeList)
         chromossomeList.remove(bestChromossome)
-        chromossomesToStillList.append(bestChromossome)
+        chromossomesToStillList.append(bestChromossome.geneticCode)
 
     return chromossomesToStillList    
 
@@ -68,8 +68,14 @@ def keep_chromossomes_elitism(genetic_algorithm):
 
 def make_crossover(genetic_algorithm):
     import random
-    newGeneticCodeList=[]
     canAdd = True
+
+    if genetic_algorithm.elitismSize > 0:
+        newGeneticCodeList = keep_chromossomes_elitism(genetic_algorithm)
+    else:
+        newGeneticCodeList=[]
+
+   
     if genetic_algorithm.quantityOfCrossing == 1:
         while len(newGeneticCodeList) < genetic_algorithm.populationSize:
             canAdd = True
@@ -96,7 +102,10 @@ def make_crossover(genetic_algorithm):
 
                 
                         
-    
+        if len(newGeneticCodeList) > genetic_algorithm.populationSize:
+            randomNumber = (random.randint(1,2))
+            del newGeneticCodeList[-randomNumber]
+        
         return newGeneticCodeList
 
         
@@ -125,7 +134,10 @@ def make_crossover(genetic_algorithm):
             if canAdd:
                 newGeneticCodeList.append(firstGeneticCode) 
                 newGeneticCodeList.append(secondGeneticCode)  
-
+                
+        if len(newGeneticCodeList) > genetic_algorithm.populationSize:
+            randomNumber = (random.randint(1,2))
+            del newGeneticCodeList[-randomNumber]
         return newGeneticCodeList
 
 def make_mutation(genetic_algorithm,cromossome):

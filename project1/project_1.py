@@ -17,7 +17,7 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult = GeneticAlgoritm(8,4, 1, 30, 1, 3, 2, 1)
+    inputResult = GeneticAlgoritm(8,4, 1, 30, 1, 2, 1, 1)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -63,22 +63,23 @@ def run_genetic_algoritm():
             sumProb += probability
             item.setProbability(sumProb)
 
+
+
+            
+            
+# ---------------------- TESTS ------------ 
     inputResult.printChromossomes()
     print('\n')
     #select_chromossome_for_crossover(inputResult)
-
-            
-            
-
-    teste = keep_chromossomes_elitism(inputResult)
-    for i in teste:
-            print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
+    #teste = keep_chromossomes_elitism(inputResult)
+    #for i in teste:
+     #       print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
     #inputResult.printChromossomes()
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
     test = make_crossover(inputResult)
-    #print(test)
-    #print(len(test))
+    print(test)
+    print(len(test))
     #print(inputResult.currentChromossomeList[0].geneticCode)
     testMutation = make_mutation(inputResult,inputResult.currentChromossomeList[0])
     #print(testMutation.geneticCode)
