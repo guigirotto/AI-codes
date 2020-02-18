@@ -1,4 +1,6 @@
 
+from project1.model.Chromossome import Chromossome
+
 def check_if_user_type_only_digits(chromossomeSize, populationSize, crossingProbability, mutationProbability,
                               methodOfSelection, elitismSize, quantityOfCrossing, quantityOfGeneration):
     if not chromossomeSize.isdigit(): return False
@@ -167,6 +169,28 @@ def get_best_chromossome(chromossomeList):
 
     return bestChromossome
 
+def run_tournment_selection(genetic_algoritm):
+    newList = []
+    for i in range(genetic_algoritm.populationSize/2):
+        tournmentResult = make_tournment_selection(genetic_algoritm)
+        newChromossomes = make_crossing_with_two_chromossomes(
+            tournmentResult['bestChromossome'],
+            tournmentResult['secondBestChromossome'], 
+            genetic_algoritm.chromossomeSize,
+            genetic_algoritm.quantityOfCrossing
+        )
+
+        newChromossome1 = Chromossome(newChromossomes['geneA'])
+        newChromossome2 = Chromossome(newChromossomes['geneB'])
+        
+        newList.append(newChromossome1)
+        newList.append(newChromossome2)
+
+        print(i, newChromossomes['geneA'], newChromossomes['geneB'])
+
+    return newList
+
+
 def make_tournment_selection(genetic_algoritm):
     import random
     from project1.model.Chromossome import Chromossome
@@ -194,3 +218,29 @@ def make_tournment_selection(genetic_algoritm):
         'bestChromossome': bestChromossome,
         'secondBestChromossome': secondBestChromossome
     }
+
+
+
+def make_crossing_with_two_chromossomes(geneA, geneB, chromossomeSize, quantityCrossing):
+    import random
+    
+    if quantityCrossing == 1:
+        indexSeparation = random.randint(1,(chromossomeSize -1))
+            
+        newGeneA = geneA.geneticCode[:indexSeparation] + geneA.geneticCode[indexSeparation:]
+        newGeneB = geneB.geneticCode[:indexSeparation] + geneB.geneticCode[indexSeparation:]
+        return {
+            'geneA': newGeneA,
+            'geneB': newGeneB
+        }
+    elif quantityCrossing == 2:
+        indexSeparationLow = random.randint(1,(chromossomeSize -2))
+        indexSeparationHigh = random.randint(indexSeparationLow + 1,(chromossomeSize -1))
+
+        firstGeneticCode = geneA.geneticCode[:indexSeparationLow] + geneB.geneticCode[indexSeparationLow:indexSeparationHigh] + geneA.geneticCode[indexSeparationHigh:]
+        secondGeneticCode = geneB.geneticCode[:indexSeparationLow] + geneA.geneticCode[indexSeparationLow:indexSeparationHigh] + geneB.geneticCode[indexSeparationHigh:]
+        return {
+            'geneA': firstGeneticCode,
+            'geneB': secondGeneticCode
+        }
+    return ""

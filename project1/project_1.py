@@ -17,7 +17,7 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult = GeneticAlgoritm(8,4, 1, 30, 1, 2, 1, 1)
+    inputResult = GeneticAlgoritm(8,40, 1, 30, 1, 2, 1, 1)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -68,6 +68,12 @@ def run_genetic_algoritm():
             
             
 # ---------------------- TESTS ------------ 
+    print('\n Print Tournment \n')
+    run_tournment_selection(inputResult)
+    print('\n End Print Tournment \n')
+
+    return
+
     inputResult.printChromossomes()
     print('\n')
     #select_chromossome_for_crossover(inputResult)
