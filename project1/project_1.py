@@ -36,6 +36,7 @@ def run_genetic_algoritm():
         chromossomeBinaryList.append(binaryCode)
 
     inputResult.currentChromossomeList = []
+    actualGeneration = 0
 
     #converting the chromossome and populate the current list
     for item in chromossomeBinaryList:
@@ -52,7 +53,7 @@ def run_genetic_algoritm():
         inputResult.currentChromossomeList.append(newChromossome)
     
     sumFitness = calculate_fitness_sum(inputResult)
-    sumProb = 0
+    sumProb = 0 
     for index,item in enumerate(inputResult.currentChromossomeList):
         if index == 0:
             probability  = calculate_roulette_probability(item.fitness,sumFitness)
@@ -62,32 +63,96 @@ def run_genetic_algoritm():
             probability  = calculate_roulette_probability(item.fitness,sumFitness)
             sumProb += probability
             item.setProbability(sumProb)
+    
+
+    bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
+
+    newChromossomeList = []
+    while actualGeneration < inputResult.quantityOfGeneration:
+        #crossover
+        crossoverChromossomesGeneticCodes = make_crossover(inputResult)
+        #Need to create chromossome and add on the new list
+        for item in crossoverChromossomesGeneticCodes:
+            
+            newChromossome = Chromossome(item)
+            binX, binY = newChromossome.geneticCode[:int(len(newChromossome.geneticCode)/2)] , newChromossome.geneticCode[int(len(newChromossome.geneticCode)/2):]
+            realX = inputResult.getConvertionFromBinaryToRealX(binX)
+            realY = inputResult.getConvertionFromBinaryToRealY(binY)
+            fitness = calculate_fitness(realX, realY)
+            
+            newChromossome.setFitness(fitness)
+            newChromossomeList.append(newChromossome)
+            
+        
+        inputResult.currentChromossomeList = newChromossomeList
+    
+        
+        
+        # list complete
+
+        #Mutations
+        for item in inputResult.currentChromossomeList:
+            item = make_mutation(inputResult,item)
+        
+        #Calculating chromossome probability for the using on the next crossover if its needed
+        sumFitness = calculate_fitness_sum(inputResult)
+        sumProb = 0 
+        for index,item in enumerate(inputResult.currentChromossomeList):
+            if index == 0:
+                probability  = calculate_roulette_probability(item.fitness,sumFitness)
+                item.setProbability(probability)
+                sumProb += probability
+            else:
+                probability  = calculate_roulette_probability(item.fitness,sumFitness)
+                sumProb += probability
+                item.setProbability(sumProb)
+                
+        #Get BestChromossome for each generation        
+        bestChromosomeGeneration = get_best_chromossome(inputResult.currentChromossomeList)
+        
+
+        #Compare best chromossome from this generation with the best chromossome in general
+        if bestChromosomeGeneration.fitness >=  bestChromosome.fitness:
+            bestChromosome = bestChromosomeGeneration
+        
+        actualGeneration += 1
+    #end while
+    print(bestChromosome)
+
+
+        
+
+
+
+
+
 
 
 
             
             
 # ---------------------- TESTS ------------ 
-    print('\n Print Tournment \n')
-    run_tournment_selection(inputResult)
-    print('\n End Print Tournment \n')
+    #print('\n Print Tournment \n')
+    #run_tournment_selection(inputResult)
+    #print('\n End Print Tournment \n')
 
-    return
+    #return
 
-    inputResult.printChromossomes()
+    #inputResult.printChromossomes()
     print('\n')
     #select_chromossome_for_crossover(inputResult)
     #teste = keep_chromossomes_elitism(inputResult)
     #for i in teste:
      #       print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
-    #inputResult.printChromossomes()
+    inputResult.printChromossomes()
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
+    
     test = make_crossover(inputResult)
     print(test)
     print(len(test))
     #print(inputResult.currentChromossomeList[0].geneticCode)
-    testMutation = make_mutation(inputResult,inputResult.currentChromossomeList[0])
+    #testMutation = make_mutation(inputResult)
     #print(testMutation.geneticCode)
     #print('-----------------------------------------\n')
     #print(make_tournment_selection(inputResult))
