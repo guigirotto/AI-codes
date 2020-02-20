@@ -189,9 +189,9 @@ def get_best_chromossome(chromossomeList):
 
     return bestChromossome
 
-def run_tournment_selection(genetic_algoritm):
+def run_tournment_selection(genetic_algoritm, generation):
     newList = []
-    for i in range(genetic_algoritm.populationSize/2):
+    for i in range(int(genetic_algoritm.populationSize/2)):
         tournmentResult = make_tournment_selection(genetic_algoritm)
         newChromossomes = make_crossing_with_two_chromossomes(
             tournmentResult['bestChromossome'],
@@ -200,13 +200,13 @@ def run_tournment_selection(genetic_algoritm):
             genetic_algoritm.quantityOfCrossing
         )
 
-        newChromossome1 = Chromossome(newChromossomes['geneA'])
-        newChromossome2 = Chromossome(newChromossomes['geneB'])
+        newChromossome1 = Chromossome(newChromossomes['geneA'], generation)
+        newChromossome2 = Chromossome(newChromossomes['geneB'], generation)
         
         newList.append(newChromossome1)
         newList.append(newChromossome2)
 
-        print(i, newChromossomes['geneA'], newChromossomes['geneB'])
+        #print(i, newChromossomes['geneA'], newChromossomes['geneB'])
 
     return newList
 
@@ -226,8 +226,8 @@ def make_tournment_selection(genetic_algoritm):
         selectionList.append(index)
         listOfChromossomes.append(genetic_algoritm.currentChromossomeList[index])
 
-    bestChromossome = Chromossome(0)
-    secondBestChromossome = Chromossome(0)
+    bestChromossome = Chromossome(0, 0)
+    secondBestChromossome = Chromossome(0, 0)
     for item in listOfChromossomes:
         if item.fitness > bestChromossome.fitness:
             secondBestChromossome = bestChromossome

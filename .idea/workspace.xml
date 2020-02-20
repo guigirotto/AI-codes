@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb6f2b3f-5670-4c5c-826a-f0e4aec10760" name="Default Changelist" comment="Correcting path problem">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project1/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project1/control/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project1/model/GeneticAlgoritm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project1/model/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project1/project_1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project1/view/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IA.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_1/control/functions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_1/model/GeneticAlgoritm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_1/project_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/project1/control/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/control/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/project1/control/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/project_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/project1/project_1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +51,9 @@
       <module name="IA" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project_1" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -121,6 +113,10 @@
     </state>
     <state x="0" y="38" key="SettingsEditor/1366.0.1920.1080/0.0.1366.768@0.0.1366.768" timestamp="1581424737616" />
     <state x="1366" y="154" key="SettingsEditor/1366.0.1920.1080/0.0.1366.768@1366.0.1920.1080" timestamp="1581470920089" />
+    <state x="1921" y="255" width="800" height="523" key="Vcs.Push.Dialog.v2" timestamp="1582192005329">
+      <screen x="1366" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1921" y="255" width="800" height="523" key="Vcs.Push.Dialog.v2/1366.0.1920.1080/0.0.1366.768@1366.0.1920.1080" timestamp="1582192005329" />
     <state x="2009" y="367" key="com.intellij.ide.util.TipDialog" timestamp="1581469611081">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>

@@ -17,7 +17,7 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult = GeneticAlgoritm(8,40, 90, 30, 1, 2, 2, 3)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,40, 90, 30, 2, 2, 2, 30)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -70,22 +70,37 @@ def run_genetic_algoritm():
     newChromossomeList = []
     while actualGeneration < inputResult.quantityOfGeneration:
         #crossover
-        crossoverChromossomesGeneticCodes = make_crossover(inputResult)
-        #Need to create chromossome and add on the new list
-        for item in crossoverChromossomesGeneticCodes:
-            
-            newChromossome = Chromossome(item,actualGeneration)
-            binX, binY = newChromossome.geneticCode[:int(len(newChromossome.geneticCode)/2)] , newChromossome.geneticCode[int(len(newChromossome.geneticCode)/2):]
-            realX = inputResult.getConvertionFromBinaryToRealX(binX)
-            realY = inputResult.getConvertionFromBinaryToRealY(binY)
-            fitness = calculate_fitness(realX, realY)
-            
-            newChromossome.setFitness(fitness)
-            newChromossomeList.append(newChromossome)
-            
-        
-        inputResult.currentChromossomeList = newChromossomeList
-    
+        if inputResult.methodOfSelection == 1:
+            crossoverChromossomesGeneticCodes = make_crossover(inputResult)
+            #Need to create chromossome and add on the new list
+            for item in crossoverChromossomesGeneticCodes:
+
+                newChromossome = Chromossome(item,actualGeneration)
+                binX, binY = newChromossome.geneticCode[:int(len(newChromossome.geneticCode)/2)] , newChromossome.geneticCode[int(len(newChromossome.geneticCode)/2):]
+                realX = inputResult.getConvertionFromBinaryToRealX(binX)
+                realY = inputResult.getConvertionFromBinaryToRealY(binY)
+                fitness = calculate_fitness(realX, realY)
+
+                newChromossome.setFitness(fitness)
+                newChromossomeList.append(newChromossome)
+
+
+            inputResult.currentChromossomeList = newChromossomeList
+
+        elif inputResult.methodOfSelection == 2:
+            #crossover tournment
+            crossoverChromossomesGeneticCodes = run_tournment_selection(inputResult, generation=actualGeneration)
+            for item in crossoverChromossomesGeneticCodes:
+
+                binX, binY = item.geneticCode[:int(len(item.geneticCode)/2)] , item.geneticCode[int(len(item.geneticCode)/2):]
+                realX = inputResult.getConvertionFromBinaryToRealX(binX)
+                realY = inputResult.getConvertionFromBinaryToRealY(binY)
+                fitness = calculate_fitness(realX, realY)
+
+                item.setFitness(fitness)
+
+
+            inputResult.currentChromossomeList = crossoverChromossomesGeneticCodes
         
         
         # list complete
@@ -99,11 +114,11 @@ def run_genetic_algoritm():
         sumProb = 0 
         for index,item in enumerate(inputResult.currentChromossomeList):
             if index == 0:
-                probability  = calculate_roulette_probability(item.fitness,sumFitness)
+                probability  = calculate_roulette_probability(item.fitness, sumFitness)
                 item.setProbability(probability)
                 sumProb += probability
             else:
-                probability  = calculate_roulette_probability(item.fitness,sumFitness)
+                probability  = calculate_roulette_probability(item.fitness, sumFitness)
                 sumProb += probability
                 item.setProbability(sumProb)
                 
@@ -149,7 +164,9 @@ def run_genetic_algoritm():
     #for i in teste:
      #       print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
     #inputResult.printChromossomes()
+
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
+
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
     
     #test = make_crossover(inputResult)
