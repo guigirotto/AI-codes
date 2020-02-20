@@ -71,7 +71,7 @@ def keep_chromossomes_elitism(genetic_algorithm):
 def make_crossover(genetic_algorithm):
     import random
     canAdd = True
-
+  
     if genetic_algorithm.elitismSize > 0:
         newGeneticCodeList = keep_chromossomes_elitism(genetic_algorithm)
     else:
@@ -81,26 +81,38 @@ def make_crossover(genetic_algorithm):
     if genetic_algorithm.quantityOfCrossing == 1:
         while len(newGeneticCodeList) < genetic_algorithm.populationSize:
             canAdd = True
+            probability = random.randint(1,100)
 
             firstDad = select_chromossome_for_crossover(genetic_algorithm)
             secondDad = select_chromossome_for_crossover(genetic_algorithm)
-            #Testing if its the same dad
+            #Testing if it is the same dad
             while firstDad == secondDad:
                 secondDad = select_chromossome_for_crossover(genetic_algorithm)
-            #It can't be 0. When we get 0, no separation occurs
-            indexSeparation = random.randint(1,(genetic_algorithm.chromossomeSize -1))
             
-            firstGeneticCode = firstDad.geneticCode[:indexSeparation] + secondDad.geneticCode[indexSeparation:]
-            secondGeneticCode = secondDad.geneticCode[:indexSeparation] + firstDad.geneticCode[indexSeparation:]
-            if  firstGeneticCode  in newGeneticCodeList:
-                canAdd = False
-            
-            if  secondGeneticCode  in newGeneticCodeList:
-                canAdd = False
 
-            if canAdd:
-                newGeneticCodeList.append(firstGeneticCode) 
-                newGeneticCodeList.append(secondGeneticCode)    
+            #Test if the chromossomes can make a crossover. If not, keep the selected dads  for the next generation.
+            if probability > genetic_algorithm.crossingProbability:
+                newGeneticCodeList.append(firstDad.geneticCode)
+                newGeneticCodeList.append(secondDad.geneticCode)
+                
+
+            
+            else:
+                #It can't be 0. When we get 0, no separation occurs 
+                  
+                indexSeparation = random.randint(1,(genetic_algorithm.chromossomeSize -1))
+                
+                firstGeneticCode = firstDad.geneticCode[:indexSeparation] + secondDad.geneticCode[indexSeparation:]
+                secondGeneticCode = secondDad.geneticCode[:indexSeparation] + firstDad.geneticCode[indexSeparation:]
+                if  firstGeneticCode  in newGeneticCodeList:
+                    canAdd = False
+                
+                if  secondGeneticCode  in newGeneticCodeList:
+                    canAdd = False
+
+                if canAdd:
+                    newGeneticCodeList.append(firstGeneticCode) 
+                    newGeneticCodeList.append(secondGeneticCode)    
 
                 
                         
@@ -114,28 +126,36 @@ def make_crossover(genetic_algorithm):
     elif genetic_algorithm.quantityOfCrossing == 2:
         while len(newGeneticCodeList) < genetic_algorithm.populationSize:
             canAdd = True
-            
+            probability = random.randint(1,100)
+
             firstDad = select_chromossome_for_crossover(genetic_algorithm)
             secondDad = select_chromossome_for_crossover(genetic_algorithm)
             #Testing if its the same dad
             while firstDad == secondDad:
                 secondDad = select_chromossome_for_crossover(genetic_algorithm)
-            #It can't be 0. When we get 0, no separation occurs and It needs to have at least a number higher than the low serapator.
-            indexSeparationLow = random.randint(1,(genetic_algorithm.chromossomeSize -2))
-            indexSeparationHigh = random.randint(indexSeparationLow + 1,(genetic_algorithm.chromossomeSize -1))
-
-            firstGeneticCode = firstDad.geneticCode[:indexSeparationLow] + secondDad.geneticCode[indexSeparationLow:indexSeparationHigh] + firstDad.geneticCode[indexSeparationHigh:]
-            secondGeneticCode = secondDad.geneticCode[:indexSeparationLow] + firstDad.geneticCode[indexSeparationLow:indexSeparationHigh] + secondDad.geneticCode[indexSeparationHigh:]
             
-            if  firstGeneticCode  in newGeneticCodeList:
-                canAdd = False
-            
-            if  secondGeneticCode  in newGeneticCodeList:
-                canAdd = False
+            #Test if the chromossomes can make a crossover. If not, keep the selected dads  for the next generation.
+            if probability > genetic_algorithm.crossingProbability:
+                newGeneticCodeList.append(firstDad.geneticCode)
+                newGeneticCodeList.append(secondDad.geneticCode)
 
-            if canAdd:
-                newGeneticCodeList.append(firstGeneticCode) 
-                newGeneticCodeList.append(secondGeneticCode)  
+            else:
+                #It can't be 0. When we get 0, no separation occurs and It needs to have at least a number higher than the low serapator.
+                indexSeparationLow = random.randint(1,(genetic_algorithm.chromossomeSize -2))
+                indexSeparationHigh = random.randint(indexSeparationLow + 1,(genetic_algorithm.chromossomeSize -1))
+
+                firstGeneticCode = firstDad.geneticCode[:indexSeparationLow] + secondDad.geneticCode[indexSeparationLow:indexSeparationHigh] + firstDad.geneticCode[indexSeparationHigh:]
+                secondGeneticCode = secondDad.geneticCode[:indexSeparationLow] + firstDad.geneticCode[indexSeparationLow:indexSeparationHigh] + secondDad.geneticCode[indexSeparationHigh:]
+                
+                if  firstGeneticCode  in newGeneticCodeList:
+                    canAdd = False
+                
+                if  secondGeneticCode  in newGeneticCodeList:
+                    canAdd = False
+
+                if canAdd:
+                    newGeneticCodeList.append(firstGeneticCode) 
+                    newGeneticCodeList.append(secondGeneticCode)  
                 
         if len(newGeneticCodeList) > genetic_algorithm.populationSize:
             randomNumber = (random.randint(1,2))

@@ -17,7 +17,7 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult = GeneticAlgoritm(8,40, 1, 30, 1, 2, 1, 3)
+    inputResult = GeneticAlgoritm(8,40, 90, 30, 1, 2, 2, 3)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
