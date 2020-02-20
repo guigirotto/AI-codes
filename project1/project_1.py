@@ -4,7 +4,7 @@
 # Genetic Algoritm - Using Roullete or Tornment method
 # Date February 09, 2020
 #
-
+from project1.view.result_display import show_chart
 from project1.view.user_input import get_values_from_user
 from project1.model.GeneticAlgoritm import GeneticAlgoritm
 from project1.model.Chromossome import Chromossome
@@ -167,6 +167,7 @@ def run_genetic_algoritm():
 
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
 
+    show_chart(bestChromosome.geneticCode, inputResult)
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
     
     #test = make_crossover(inputResult)
