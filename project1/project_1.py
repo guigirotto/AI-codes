@@ -167,7 +167,7 @@ def run_genetic_algoritm():
 
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
 
-    show_chart(bestChromosome.geneticCode, inputResult)
+    show_chart(bestChromosome, inputResult)
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
     
     #test = make_crossover(inputResult)
