@@ -10,6 +10,7 @@ from project1.model.GeneticAlgoritm import GeneticAlgoritm
 from project1.model.Chromossome import Chromossome
 import random
 from project1.control.functions import *
+import matplotlib.animation as animation
 
 def run_genetic_algoritm():
     #creating genetic algoritm object class
@@ -17,7 +18,7 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,40, 90, 30, 2, 2, 2, 30)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,40, 4, 30, 1, 2, 2, 30)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -26,6 +27,7 @@ def run_genetic_algoritm():
 
     #generating chromossome list
     chromossomeBinaryList = []
+    bestChromossomeList = []
 
     maxValue = 2**inputResult.chromossomeSize
     for item in range(int(inputResult.populationSize)):
@@ -66,9 +68,11 @@ def run_genetic_algoritm():
     
 
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
+    bestChromossomeList.append(bestChromosome)
     actualGeneration += 1
     newChromossomeList = []
     while actualGeneration < inputResult.quantityOfGeneration:
+       
         #crossover
         if inputResult.methodOfSelection == 1:
             crossoverChromossomesGeneticCodes = make_crossover(inputResult)
@@ -129,14 +133,18 @@ def run_genetic_algoritm():
         #Compare best chromossome from this generation with the best chromossome in general
         if bestChromosomeGeneration.fitness >=  bestChromosome.fitness:
             bestChromosome = bestChromosomeGeneration
+            bestChromossomeList.append(bestChromosome)
         
         actualGeneration += 1
+        
     #end while
-    print(
-            "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
-            "\nGeneration: " + str(bestChromosome.generation) + 
-            "\nFitness: " + str(bestChromosome.fitness) 
-    )
+    print(len(bestChromossomeList))
+    for bestChromosome in bestChromossomeList:
+        print(
+                "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
+                "\nGeneration: " + str(bestChromosome.generation) + 
+                "\nFitness: " + str(bestChromosome.fitness) 
+        )
 
 
         
@@ -164,10 +172,9 @@ def run_genetic_algoritm():
     #for i in teste:
      #       print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
     #inputResult.printChromossomes()
-
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
-
-    show_chart(bestChromosome, inputResult)
+    show_chart(bestChromossomeList,inputResult,)
+    
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
     
     #test = make_crossover(inputResult)
