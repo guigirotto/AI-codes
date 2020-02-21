@@ -1,36 +1,40 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+import ctypes
+
+def Mbox(title, text, style):
+    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
 
 
-def show_chart(geneticCode, geneticAlgoritm):
+def show_chart(bestChromosome, geneticAlgoritm):
     from project1.control.functions import calculate_fitness
     import math
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    xline = np.linspace(0, 30, 100)
-    yline = np.linspace(0, 30, 100)
-    zline = 21.5 + xline*np.sin(4*math.pi*xline) + yline*np.sin(20*math.pi*yline)
+  
+    x = np.arange(-3.1, 12.1, 0.01)
+    y = np.arange(4.1, 5.8, 0.01)
+    X, Y = np.meshgrid(x, y)
+    Z = 21.5 + X * np.sin(4*math.pi*X) + Y * np.sin(20*math.pi*Y)
 
 
-    '''for i in range(1000):
-        for j in range(1000):
-            result = calculate_fitness(xline[i], yline[i])
-            zline.append(result)
-    '''
-
-    ax.plot3D(xline, yline, zline)
-    binX, binY = geneticCode[:int(len(geneticCode) / 2)], geneticCode[int(len(geneticCode) / 2):]
+    binX, binY = bestChromosome.geneticCode[:int(len(bestChromosome.geneticCode) / 2)], bestChromosome.geneticCode[int(len(bestChromosome.geneticCode) / 2):]
     realX = geneticAlgoritm.getConvertionFromBinaryToRealX(binX)
     realY = geneticAlgoritm.getConvertionFromBinaryToRealY(binY)
     zdata = calculate_fitness(realX, realY)
     xdata = realX
     ydata = realY
 
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    ax.set_xlabel('X ')
+    ax.set_ylabel('Y ')
+    ax.set_zlabel('Z ')
+    surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm, alpha=0.2)
 
-    ax.scatter3D(xdata, ydata, zdata, c='r', marker='o')
+    ax.scatter(xdata, ydata, zdata, c='r', marker='o')
     plt.show()
+    Mbox('Resultado', "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
+            "\nGeneration: " + str(bestChromosome.generation) + 
+            "\nFitness: " + str(bestChromosome.fitness) , 0)
