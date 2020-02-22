@@ -64,8 +64,6 @@ def show_chart(bestChromossomeList, geneticAlgoritm,):
            binX, binY = bestChromossomeList[index].geneticCode[:int(len(bestChromossomeList[index].geneticCode) / 2)], bestChromossomeList[index].geneticCode[int(len(bestChromossomeList[index].geneticCode) / 2):]
            realX = geneticAlgoritm.getConvertionFromBinaryToRealX(binX)
            realY = geneticAlgoritm.getConvertionFromBinaryToRealY(binY)
-           print(bestChromossomeList[index].geneticCode)
-           print(binX,binY)
            zdata =(calculate_fitness(realX, realY))
            
            for s in sc:

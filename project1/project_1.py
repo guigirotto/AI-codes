@@ -18,7 +18,11 @@ def run_genetic_algoritm():
 
     #use only to test
     print('---ATENTION: Do not forget to erase the test code input ---- ')
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,40, 4, 30, 1, 2, 2, 30)
+    #To remember
+    #    def __init__(chromossomeSize, populationSize, crossingProbability,
+     #mutationProbability,methodOfSelection, elitismSize,
+     # quantityOfCrossing, quantityOfGeneration):
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,4, 4, 30, 1, 2, 2, 10)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -66,12 +70,41 @@ def run_genetic_algoritm():
             sumProb += probability
             item.setProbability(sumProb)
     
+ # TESTE MUTATION --
+    '''
+        inputResult.printChromossomes()
+        print('\n')
+        print('\n')
+
+        for item in inputResult.currentChromossomeList:
+                item = make_mutation(inputResult,item)
+
+        inputResult.printChromossomes()
+
+    
+        listTeste = []
+        for newChromossome in inputResult.currentChromossomeList:
+            binX,binY = newChromossome.geneticCode[:int(len(newChromossome.geneticCode)/2)] , newChromossome.geneticCode[int(len(newChromossome.geneticCode)/2):]
+            realX = inputResult.getConvertionFromBinaryToRealX(binX)
+            realY = inputResult.getConvertionFromBinaryToRealY(binY)
+            fitness = calculate_fitness(realX, realY)
+            newChromossome.setFitness(fitness)
+            listTeste.append(newChromossome)
+
+        inputResult.currentChromossomeList = listTeste
+        print('\n')
+        print('\n')
+
+        inputResult.printChromossomes()
+    '''
+  # END TEST MUTATION
 
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
     bestChromossomeList.append(bestChromosome)
     actualGeneration += 1
-    newChromossomeList = []
+    
     while actualGeneration < inputResult.quantityOfGeneration:
+        newChromossomeList = []
        
         #crossover
         if inputResult.methodOfSelection == 1:
@@ -138,13 +171,14 @@ def run_genetic_algoritm():
         actualGeneration += 1
         
     #end while
-    print(len(bestChromossomeList))
-    for bestChromosome in bestChromossomeList:
-        print(
-                "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
-                "\nGeneration: " + str(bestChromosome.generation) + 
-                "\nFitness: " + str(bestChromosome.fitness) 
-        )
+    print(len(inputResult.currentChromossomeList))
+    #print(len(bestChromossomeList))
+    #for bestChromosome in bestChromossomeList:
+     #   print(
+      #          "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
+       #         "\nGeneration: " + str(bestChromosome.generation) + 
+        #        "\nFitness: " + str(bestChromosome.fitness) 
+        #)
 
 
         
@@ -153,6 +187,7 @@ def run_genetic_algoritm():
 
 
 
+#show_chart(bestChromossomeList,inputResult,)
 
 
 
@@ -173,7 +208,7 @@ def run_genetic_algoritm():
      #       print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
     #inputResult.printChromossomes()
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
-    show_chart(bestChromossomeList,inputResult,)
+    
     
     #inputResult.setBestChromossome(bestChromosome.geneticCode,0,bestChromosome.fitness)
     
