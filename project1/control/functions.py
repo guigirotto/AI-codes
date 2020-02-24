@@ -198,6 +198,10 @@ def make_crossover(genetic_algorithm,generation):
 def make_mutation(genetic_algorithm,cromossome):
     import random
     cromossomeArray = list(cromossome.geneticCode)
+    cromossomeGeneticList = []
+    for item in genetic_algorithm.currentChromossomeList:
+        cromossomeGeneticList.append(item.geneticCode)
+
     for i in range(len(cromossomeArray)):
         probability = random.randint(1,100)
         
@@ -209,9 +213,16 @@ def make_mutation(genetic_algorithm,cromossome):
 
             elif cromossomeArray[i] == '0':
                 cromossomeArray[i] = '1'
-            
-        cromossome.geneticCode = "".join(cromossomeArray)
 
+        newGeneticCode = "".join(cromossomeArray)
+
+        # Don't let equal cromossomes
+        if newGeneticCode in cromossomeGeneticList:
+           return
+
+        else:
+            cromossome.geneticCode = "".join(cromossomeArray)
+            
     return cromossome
 
 def get_best_chromossome(chromossomeList):
