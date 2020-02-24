@@ -22,7 +22,7 @@ def run_genetic_algoritm():
     #    def __init__(chromossomeSize, populationSize, crossingProbability,
      #mutationProbability,methodOfSelection, elitismSize,
      # quantityOfCrossing, quantityOfGeneration):
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,4, 4, 30, 1, 2, 2, 2)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 1, 4, 2, 10)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -108,11 +108,10 @@ def run_genetic_algoritm():
        
         #crossover
         if inputResult.methodOfSelection == 1:
-            crossoverChromossomesGeneticCodes = make_crossover(inputResult)
+            crossoverChromossomesGeneticCodes = make_crossover(inputResult,generation = actualGeneration)
             #Need to create chromossome and add on the new list
-            for item in crossoverChromossomesGeneticCodes:
+            for newChromossome in crossoverChromossomesGeneticCodes:
 
-                newChromossome = Chromossome(item,actualGeneration)
                 binX, binY = newChromossome.geneticCode[:int(len(newChromossome.geneticCode)/2)] , newChromossome.geneticCode[int(len(newChromossome.geneticCode)/2):]
                 realX = inputResult.getConvertionFromBinaryToRealX(binX)
                 realY = inputResult.getConvertionFromBinaryToRealY(binY)
@@ -186,7 +185,7 @@ def run_genetic_algoritm():
         print(inputResult.printChromossomes())
         
     #end while
-    #print(len(inputResult.currentChromossomeList))
+    print(len(inputResult.currentChromossomeList))
     #print(len(bestChromossomeList))
     for bestChromosome in bestChromossomeList:
         print(

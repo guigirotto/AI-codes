@@ -51,6 +51,6 @@ class GeneticAlgoritm:
     
     def printChromossomes(self):
         for i in self.currentChromossomeList:
-            print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability)) 
+            print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability) + "- G: " + str(i.generation)) 
 
 

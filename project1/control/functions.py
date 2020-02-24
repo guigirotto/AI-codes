@@ -62,20 +62,25 @@ def keep_chromossomes_elitism(genetic_algorithm):
     while len(chromossomesToStillList) < genetic_algorithm.elitismSize:
         bestChromossome = get_best_chromossome(chromossomeList)
         chromossomeList.remove(bestChromossome)
-        chromossomesToStillList.append(bestChromossome.geneticCode)
+        chromossomesToStillList.append(bestChromossome)
 
     return chromossomesToStillList    
 
 
 
-def make_crossover(genetic_algorithm):
+def make_crossover(genetic_algorithm,generation):
     import random
     canAdd = True
-  
+    newGeneticCodeList=[]
+
     if genetic_algorithm.elitismSize > 0:
-        newGeneticCodeList = keep_chromossomes_elitism(genetic_algorithm)
+        chromossomesList = keep_chromossomes_elitism(genetic_algorithm)
+        for i in chromossomesList:
+            newGeneticCodeList.append(i.geneticCode)
     else:
-        newGeneticCodeList=[]
+        chromossomesList=[]
+
+    
 
    
     if genetic_algorithm.quantityOfCrossing == 1:
@@ -92,8 +97,15 @@ def make_crossover(genetic_algorithm):
 
             #Test if the chromossomes can make a crossover. If not, keep the selected dads  for the next generation.
             if probability > genetic_algorithm.crossingProbability:
-                newGeneticCodeList.append(firstDad.geneticCode)
-                newGeneticCodeList.append(secondDad.geneticCode)
+                if  firstDad.geneticCode  in newGeneticCodeList:
+                    canAdd = False
+                
+                if  secondDad.geneticCode  in newGeneticCodeList:
+                    canAdd = False
+
+                if canAdd:   
+                    newGeneticCodeList.append(firstDad.geneticCode)
+                    newGeneticCodeList.append(secondDad.geneticCode)
                 
 
             
@@ -120,7 +132,13 @@ def make_crossover(genetic_algorithm):
             randomNumber = (random.randint(1,2))
             del newGeneticCodeList[-randomNumber]
         
-        return newGeneticCodeList
+        for index,item in enumerate(newGeneticCodeList):
+            if not (index < genetic_algorithm.elitismSize):
+                newChromossome = Chromossome(item,generation)
+                chromossomesList.append(newChromossome)
+            
+
+        return chromossomesList
 
         
     elif genetic_algorithm.quantityOfCrossing == 2:
@@ -136,8 +154,16 @@ def make_crossover(genetic_algorithm):
             
             #Test if the chromossomes can make a crossover. If not, keep the selected dads  for the next generation.
             if probability > genetic_algorithm.crossingProbability:
-                newGeneticCodeList.append(firstDad.geneticCode)
-                newGeneticCodeList.append(secondDad.geneticCode)
+                if  firstDad.geneticCode  in newGeneticCodeList:
+                    canAdd = False
+                
+                if  secondDad.geneticCode  in newGeneticCodeList:
+                    canAdd = False
+
+                if canAdd:   
+                    newGeneticCodeList.append(firstDad.geneticCode)
+                    newGeneticCodeList.append(secondDad.geneticCode)  
+
 
             else:
                 #It can't be 0. When we get 0, no separation occurs and It needs to have at least a number higher than the low serapator.
@@ -160,7 +186,14 @@ def make_crossover(genetic_algorithm):
         if len(newGeneticCodeList) > genetic_algorithm.populationSize:
             randomNumber = (random.randint(1,2))
             del newGeneticCodeList[-randomNumber]
-        return newGeneticCodeList
+
+
+        for index,item in enumerate(newGeneticCodeList):
+            if not (index < genetic_algorithm.elitismSize):
+                newChromossome = Chromossome(item,generation)
+                chromossomesList.append(newChromossome)    
+
+        return chromossomesList
 
 def make_mutation(genetic_algorithm,cromossome):
     import random
