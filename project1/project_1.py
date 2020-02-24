@@ -22,7 +22,7 @@ def run_genetic_algoritm():
     #    def __init__(chromossomeSize, populationSize, crossingProbability,
      #mutationProbability,methodOfSelection, elitismSize,
      # quantityOfCrossing, quantityOfGeneration):
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 1, 2, 2, 7)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,4, 4, 30, 1, 2, 2, 2)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -102,7 +102,7 @@ def run_genetic_algoritm():
     bestChromosome = get_best_chromossome(inputResult.currentChromossomeList)
     bestChromossomeList.append(bestChromosome)
     actualGeneration += 1
-    
+    print(inputResult.printChromossomes())
     while actualGeneration < inputResult.quantityOfGeneration:
         newChromossomeList = []
        
@@ -143,8 +143,10 @@ def run_genetic_algoritm():
         # list complete
 
         #Mutations
-        for item in inputResult.currentChromossomeList:
-            item = make_mutation(inputResult,item)
+        for index,item in enumerate(inputResult.currentChromossomeList):
+            #Keep the elitism without mutations
+            if not (index < inputResult.elitismSize):
+                item = make_mutation(inputResult,item)
         
 
         #Calculating new fitness after mutations
@@ -181,6 +183,7 @@ def run_genetic_algoritm():
             bestChromossomeList.append(bestChromosome)
         
         actualGeneration += 1
+        print(inputResult.printChromossomes())
         
     #end while
     #print(len(inputResult.currentChromossomeList))
@@ -199,7 +202,7 @@ def run_genetic_algoritm():
 
 
 
-    show_chart(bestChromossomeList,inputResult)
+    #show_chart(bestChromossomeList,inputResult)
 
 
 
