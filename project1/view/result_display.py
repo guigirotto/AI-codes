@@ -21,19 +21,19 @@ def show_chart(bestChromossomeList, geneticAlgoritm,):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    for bestChromosome in bestChromossomeList:
-        print(
-                "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
-                "\nGeneration: " + str(bestChromosome.generation) + 
-                "\nFitness: " + str(bestChromosome.fitness) 
-        )
+    #for bestChromosome in bestChromossomeList:
+     #   print(
+      #          "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
+       #         "\nGeneration: " + str(bestChromosome.generation) + 
+        #        "\nFitness: " + str(bestChromosome.fitness) 
+        #)
 
   
     x = np.arange(-3.1, 12.1, 0.01)
     y = np.arange(4.1, 5.8, 0.01)
     X, Y = np.meshgrid(x, y)
     Z = 21.5 + X * np.sin(4*math.pi*X) + Y * np.sin(20*math.pi*Y)
-    print(bestChromossomeList[0].geneticCode)
+    #print(bestChromossomeList[0].geneticCode)
     binX, binY = bestChromossomeList[index].geneticCode[:int(len(bestChromossomeList[index].geneticCode) / 2)], bestChromossomeList[index].geneticCode[int(len(bestChromossomeList[index].geneticCode) / 2):]
     realX = geneticAlgoritm.getConvertionFromBinaryToRealX(binX)
     realY = geneticAlgoritm.getConvertionFromBinaryToRealY(binY)
@@ -65,7 +65,7 @@ def show_chart(bestChromossomeList, geneticAlgoritm,):
            realX = geneticAlgoritm.getConvertionFromBinaryToRealX(binX)
            realY = geneticAlgoritm.getConvertionFromBinaryToRealY(binY)
            zdata =(calculate_fitness(realX, realY))
-           
+           print(zdata)
            for s in sc:
                 s.remove() 
            

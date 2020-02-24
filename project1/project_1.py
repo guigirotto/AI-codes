@@ -22,7 +22,7 @@ def run_genetic_algoritm():
     #    def __init__(chromossomeSize, populationSize, crossingProbability,
      #mutationProbability,methodOfSelection, elitismSize,
      # quantityOfCrossing, quantityOfGeneration):
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,4, 4, 30, 1, 2, 2, 10)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 1, 2, 2, 7)
     inputResult.setTournmentSize(10)
 
     if not inputResult:
@@ -146,6 +146,18 @@ def run_genetic_algoritm():
         for item in inputResult.currentChromossomeList:
             item = make_mutation(inputResult,item)
         
+
+        #Calculating new fitness after mutations
+        for item in inputResult.currentChromossomeList:
+
+            binX, binY = item.geneticCode[:int(len(item.geneticCode)/2)] , item.geneticCode[int(len(item.geneticCode)/2):]
+            realX = inputResult.getConvertionFromBinaryToRealX(binX)
+            realY = inputResult.getConvertionFromBinaryToRealY(binY)
+            fitness = calculate_fitness(realX, realY)
+
+            item.setFitness(fitness)    
+
+
         #Calculating chromossome probability for the using on the next crossover if its needed
         sumFitness = calculate_fitness_sum(inputResult)
         sumProb = 0 
@@ -171,14 +183,14 @@ def run_genetic_algoritm():
         actualGeneration += 1
         
     #end while
-    print(len(inputResult.currentChromossomeList))
+    #print(len(inputResult.currentChromossomeList))
     #print(len(bestChromossomeList))
-    #for bestChromosome in bestChromossomeList:
-     #   print(
-      #          "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
-       #         "\nGeneration: " + str(bestChromosome.generation) + 
-        #        "\nFitness: " + str(bestChromosome.fitness) 
-        #)
+    for bestChromosome in bestChromossomeList:
+        print(
+                "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
+                "\nGeneration: " + str(bestChromosome.generation) + 
+                "\nFitness: " + str(bestChromosome.fitness) 
+        )
 
 
         
@@ -187,7 +199,7 @@ def run_genetic_algoritm():
 
 
 
-#show_chart(bestChromossomeList,inputResult,)
+    show_chart(bestChromossomeList,inputResult)
 
 
 
