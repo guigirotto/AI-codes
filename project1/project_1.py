@@ -22,8 +22,8 @@ def run_genetic_algoritm():
     #    def __init__(chromossomeSize, populationSize, crossingProbability,
      #mutationProbability,methodOfSelection, elitismSize,
      # quantityOfCrossing, quantityOfGeneration):
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 1, 4, 2, 10)
-    inputResult.setTournmentSize(10)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 2, 4, 2, 10)
+    inputResult.setTournmentSize(4)
 
     if not inputResult:
         print('Ops, something went wrong')
@@ -134,6 +134,8 @@ def run_genetic_algoritm():
                 fitness = calculate_fitness(realX, realY)
 
                 item.setFitness(fitness)
+
+
 
 
             inputResult.currentChromossomeList = crossoverChromossomesGeneticCodes

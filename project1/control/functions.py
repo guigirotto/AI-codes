@@ -234,7 +234,16 @@ def get_best_chromossome(chromossomeList):
     return bestChromossome
 
 def run_tournment_selection(genetic_algoritm, generation):
+    import random
     newList = []
+    if genetic_algoritm.elitismSize > 0:
+        chromossomesList = keep_chromossomes_elitism(genetic_algoritm)
+        for i in chromossomesList:
+            newList.append(i)
+    else:
+        chromossomesList=[]
+    
+
     for i in range(int(genetic_algoritm.populationSize/2)):
         tournmentResult = make_tournment_selection(genetic_algoritm)
         newChromossomes = make_crossing_with_two_chromossomes(
@@ -251,6 +260,15 @@ def run_tournment_selection(genetic_algoritm, generation):
         newList.append(newChromossome2)
 
         #print(i, newChromossomes['geneA'], newChromossomes['geneB'])
+
+    if len(newList) > genetic_algoritm.populationSize:
+        randomNumber = (random.randint(1,2))
+        del newList[-randomNumber]
+
+    for index,item in enumerate(newList):
+        if not (index < genetic_algoritm.elitismSize):
+            newChromossome = Chromossome(item,generation)
+            chromossomesList.append(newChromossome)
 
     return newList
 
