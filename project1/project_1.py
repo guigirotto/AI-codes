@@ -23,7 +23,7 @@ def run_genetic_algoritm():
     #    def __init__(chromossomeSize, populationSize, crossingProbability,
      #mutationProbability,methodOfSelection, elitismSize,
      # quantityOfCrossing, quantityOfGeneration):
-    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 2, 4, 2, 10)
+    inputResult: GeneticAlgoritm = GeneticAlgoritm(8,20, 4, 30, 2, 4, 1, 50)
     inputResult.setTournmentSize(4)
 
     if not inputResult:
@@ -180,9 +180,9 @@ def run_genetic_algoritm():
         
 
         #Compare best chromossome from this generation with the best chromossome in general
-        if bestChromosomeGeneration.fitness >=  bestChromosome.fitness:
-            bestChromosome = bestChromosomeGeneration
-            bestChromossomeList.append(bestChromosome)
+        #if bestChromosomeGeneration.fitness >=  bestChromosome.fitness:
+        bestChromosome = bestChromosomeGeneration
+        bestChromossomeList.append(bestChromosome)
         
         actualGeneration += 1
         print(inputResult.printChromossomes())
@@ -205,7 +205,7 @@ def run_genetic_algoritm():
 
 
     show_chart(bestChromossomeList,inputResult)
-    show_chart2(bestChromossomeList)
+    show_chart2(bestChromossomeList,inputResult.quantityOfGeneration)
 
 
 

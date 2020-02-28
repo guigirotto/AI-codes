@@ -83,7 +83,7 @@ def show_chart(bestChromossomeList, geneticAlgoritm,):
     finish = int(len(bestChromossomeList))
        
     
-    ani = animation.FuncAnimation(fig, animate, interval=5000)
+    ani = animation.FuncAnimation(fig, animate, interval=2000)
     plt.show()
     
     
@@ -92,7 +92,7 @@ def show_chart(bestChromossomeList, geneticAlgoritm,):
             #"\nFitness: " + str(bestChromosome.fitness) , 0)
 
 
-def show_chart2(bestChromossomeList,):
+def show_chart2(bestChromossomeList,quantityOfGeneration):
     from matplotlib.animation import FuncAnimation
     import matplotlib.pyplot as plt
     fitnessList = []
@@ -101,7 +101,7 @@ def show_chart2(bestChromossomeList,):
         fitnessList.append(bestChromosome.fitness)
         generationList.append(bestChromosome.generation)
     fig = plt.figure(1)
-    plt.xlim(0, 10)
+    plt.xlim(0, quantityOfGeneration)
     plt.ylim(0, 40)
     graph, = plt.plot([], [], lw=3)
     plt.grid(axis='both',which='major',color=[166/255,166/255,166/255],
