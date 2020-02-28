@@ -90,5 +90,32 @@ def show_chart(bestChromossomeList, geneticAlgoritm,):
     #Mbox('Resultado', "CURRENT BEST CHRMOSSOME: " + bestChromosome.geneticCode + 
             #"\nGeneration: " + str(bestChromosome.generation) + 
             #"\nFitness: " + str(bestChromosome.fitness) , 0)
-    
 
+
+def show_chart2(bestChromossomeList,):
+    from matplotlib.animation import FuncAnimation
+    import matplotlib.pyplot as plt
+    fitnessList = []
+    generationList=[]
+    for bestChromosome in bestChromossomeList:
+        fitnessList.append(bestChromosome.fitness)
+        generationList.append(bestChromosome.generation)
+    fig = plt.figure()
+    plt.xlim(0, 10)
+    plt.ylim(0, 40)
+    graph, = plt.plot([], [], 'o')
+    plt.grid(axis='both',which='major',color=[166/255,166/255,166/255],
+            linestyle='-',linewidth=2)
+    plt.minorticks_on()
+    plt.grid(axis='both',which='minor',color=[166/255,166/255,166/255],
+            linestyle=':',linewidth=2)
+    plt.xlabel('Generation')
+    plt.ylabel('Fitness')
+    def animate(i):
+        graph.set_data(generationList[:i+1],fitnessList[:i+1])
+        return graph
+
+    ani = FuncAnimation(fig, animate, interval=200)
+    plt.show()
+    print(fitnessList)
+    print(generationList)
