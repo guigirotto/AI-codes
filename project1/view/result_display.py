@@ -100,10 +100,10 @@ def show_chart2(bestChromossomeList,):
     for bestChromosome in bestChromossomeList:
         fitnessList.append(bestChromosome.fitness)
         generationList.append(bestChromosome.generation)
-    fig = plt.figure()
+    fig = plt.figure(1)
     plt.xlim(0, 10)
     plt.ylim(0, 40)
-    graph, = plt.plot([], [], 'o')
+    graph, = plt.plot([], [], lw=3)
     plt.grid(axis='both',which='major',color=[166/255,166/255,166/255],
             linestyle='-',linewidth=2)
     plt.minorticks_on()
@@ -117,5 +117,4 @@ def show_chart2(bestChromossomeList,):
 
     ani = FuncAnimation(fig, animate, interval=200)
     plt.show()
-    print(fitnessList)
-    print(generationList)
+

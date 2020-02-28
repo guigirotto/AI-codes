@@ -204,7 +204,7 @@ def run_genetic_algoritm():
 
 
 
-    #show_chart(bestChromossomeList,inputResult)
+    show_chart(bestChromossomeList,inputResult)
     show_chart2(bestChromossomeList)
 
 
