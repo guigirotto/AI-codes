@@ -1,4 +1,4 @@
-from project1.project_1 import run_genetic_algoritm
+from project2.project_2 import run_genetic_algoritm
 
 #algoritmOption = input("Select the project number: ")
 algoritmOption = 1
