@@ -15,7 +15,7 @@ class GeneticAlgoritm:
         self.elitism_size = int(elitism_size)
         self.quantity_of_crossing = int(quantity_of_crossing)
         self.quantity_of_generation = int(quantity_of_generation)
-        self.chromosomeSize = int(chromosome_size)
+        self.chromosome_size = int(chromosome_size)
         self.method_of_selection = int(method_of_selection)
         self.minSpanX = -3.1
         self.maxSpanX = 12.1
@@ -26,13 +26,12 @@ class GeneticAlgoritm:
     def set_tournament_size(self, tournament_size):
         self.tournament_size = int(tournament_size)
 
-    def get_convertion_from_binary_to_real_x(self, number_on_base_ten):
-        number_converted = self.minSpanX + ((self.maxSpanX - self.minSpanX)/(2**(self.chromosomeSize/2) - 1))*int(number_on_base_ten, 2)
+    def get_conversion_from_binary_to_real_x(self, number_on_base_ten):
+        number_converted = self.minSpanX + ((self.maxSpanX - self.minSpanX)/(2**(self.chromosome_size/2) - 1))*int(number_on_base_ten, 2)
         return number_converted
     
-    #TO DO
-    def get_convertion_from_binary_to_real_y(self, number_on_base_ten):
-        number_converted = self.minSpanY + ((self.maxSpanY - self.minSpanY)/(2**(self.chromosomeSize/2) - 1))*int(number_on_base_ten, 2)
+    def get_conversion_from_binary_to_real_y(self, number_on_base_ten):
+        number_converted = self.minSpanY + ((self.maxSpanY - self.minSpanY)/(2**(self.chromosome_size/2) - 1))*int(number_on_base_ten, 2)
         return number_converted
 
     def set_best_chromosome(self, new_chromosome, generation, fitness):
@@ -53,6 +52,6 @@ class GeneticAlgoritm:
     
     def print_chromosomes(self):
         for i in self.current_chromosome_list:
-            print(str(i.geneticCode) + " - F: " + str(i.fitness) + "- P: " + str(i.probability) + "- G: " + str(i.generation)) 
+            print(str(i.genetic_code) + " - F: " + str(i.fitness) + "- P: " + str(i.probability) + "- G: " + str(i.generation))
 
 
