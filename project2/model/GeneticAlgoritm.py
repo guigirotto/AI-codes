@@ -5,9 +5,17 @@ class GeneticAlgoritm:
     best_chromosome_generation = ""
     best_chromosome_fitness = 0
 
-    def __init__(self, chromosome_size, population_size, crossing_probability,
-        mutation_probability, method_of_selection, elitism_size,
-        quantity_of_crossing, quantity_of_generation):
+    def __init__(
+        self,
+        chromosome_size,
+        population_size,
+        crossing_probability,
+        mutation_probability,
+        method_of_selection,
+        elitism_size,
+        quantity_of_crossing,
+        quantity_of_generation,
+    ):
 
         self.population_size = int(population_size)
         self.crossing_probability = int(crossing_probability)
@@ -27,11 +35,15 @@ class GeneticAlgoritm:
         self.tournament_size = int(tournament_size)
 
     def get_conversion_from_binary_to_real_x(self, number_on_base_ten):
-        number_converted = self.minSpanX + ((self.maxSpanX - self.minSpanX)/(2**(self.chromosome_size/2) - 1))*int(number_on_base_ten, 2)
+        number_converted = self.minSpanX + (
+            (self.maxSpanX - self.minSpanX) / (2 ** (self.chromosome_size / 2) - 1)
+        ) * int(number_on_base_ten, 2)
         return number_converted
-    
+
     def get_conversion_from_binary_to_real_y(self, number_on_base_ten):
-        number_converted = self.minSpanY + ((self.maxSpanY - self.minSpanY)/(2**(self.chromosome_size/2) - 1))*int(number_on_base_ten, 2)
+        number_converted = self.minSpanY + (
+            (self.maxSpanY - self.minSpanY) / (2 ** (self.chromosome_size / 2) - 1)
+        ) * int(number_on_base_ten, 2)
         return number_converted
 
     def set_best_chromosome(self, new_chromosome, generation, fitness):
@@ -39,9 +51,12 @@ class GeneticAlgoritm:
         self.best_chromosome_generation = generation
         self.best_chromosome_fitness = fitness
         print(
-            "CURRENT BEST CHRMOSSOME: " + new_chromosome +
-            "\nGeneration: " + str(generation) + 
-            "\nFitness: " + str(fitness) 
+            "CURRENT BEST CHROMOSOME: "
+            + new_chromosome
+            + "\nGeneration: "
+            + str(generation)
+            + "\nFitness: "
+            + str(fitness)
         )
 
     def get_total_fitness(self):
@@ -49,9 +64,15 @@ class GeneticAlgoritm:
         for i in self.current_chromosome_list:
             total += i.fitness
         return total
-    
+
     def print_chromosomes(self):
         for i in self.current_chromosome_list:
-            print(str(i.genetic_code) + " - F: " + str(i.fitness) + "- P: " + str(i.probability) + "- G: " + str(i.generation))
-
-
+            print(
+                str(i.genetic_code)
+                + " - F: "
+                + str(i.fitness)
+                + "- P: "
+                + str(i.probability)
+                + "- G: "
+                + str(i.generation)
+            )

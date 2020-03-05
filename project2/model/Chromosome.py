@@ -1,5 +1,4 @@
 class Chromosome:
-
     def __init__(self, genetic_code, generation):
         self.genetic_code = genetic_code
         self.fitness = 0
