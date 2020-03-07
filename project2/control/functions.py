@@ -239,35 +239,28 @@ def make_crossover(genetic_algorithm, generation):
 
 
 def make_mutation(genetic_algorithm, chromosome):
+    from project2.model.Pair import Pair
     import random
-
-    chromosome_array = list(chromosome.genetic_code)
-    chromosome_genetic_list = []
-    for item in genetic_algorithm.current_chromosome_list:
-        chromosome_genetic_list.append(item.genetic_code)
-
-    for i in range(len(chromosome_array)):
+    list_of_pairs = [
+        Pair(pair_id=1, employee_1=1, employee_2=2),
+        Pair(pair_id=2, employee_1=3, employee_2=4),
+        Pair(pair_id=3, employee_1=5, employee_2=6),
+        Pair(pair_id=4, employee_1=7, employee_2=8),
+        Pair(pair_id=5, employee_1=9, employee_2=10),
+        ]    
+    for index, item in enumerate(chromosome.genetic_code,start=0):
         probability = random.randint(1, 100)
-
         if probability < genetic_algorithm.mutation_probability:
+            random_index =  random.randint(0,4)
+            item = list_of_pairs[random_index]
 
-            if chromosome_array[i] == "1":
-                chromosome_array[i] = "0"
+    return chromosome    
+            
+            
 
-            elif chromosome_array[i] == "0":
-                chromosome_array[i] = "1"
-
-        new_genetic_code = "".join(chromosome_array)
-
-        # Don't let equal chromosomes
-        if new_genetic_code in chromosome_genetic_list:
-            return
-
-        else:
-            chromosome.genetic_code = "".join(chromosome_array)
-
-    return chromosome
-
+    
+    
+        
 
 def get_best_chromosome(chromosome_list):
     best_chromosome = chromosome_list[0]
