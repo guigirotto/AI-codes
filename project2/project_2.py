@@ -11,13 +11,31 @@ import random
 from project2.control.functions import *
 
 
+def test():
+    test_chromosome = Chromosome()
+    for i in range(100):
+        test_chromosome.create_random_genetic_code()
+        check_scale = test_chromosome.check_if_genetic_code_is_valid()
+        if not check_scale["valid"]:
+            if not check_scale["2_turns"]:
+                print("-------Wrong 2 pause--------")
+            if not check_scale["6_pause"]:
+                print("-------Wrong 6 pauses--------")
+            if not check_scale["5_pause"]:
+                print("------Wrong 5 pauses---------")
+            test_chromosome.print_scale()
+            print("\n-----------------------------------------------\n")
+
+    test_chromosome.print_scale()
+
+
 def run_genetic_algoritm():
     # creating genetic algoritm object class
     #  inputResult = get_values_from_user()
 
     # Use only to test
-    print("---ATENTION: Do not forget to erase the test code input ---- ")
-    input_result: GeneticAlgoritm = GeneticAlgoritm(20, 20, 30, 10, 2, 0, 1, 50)
+    print("--- ATENTION: Do not forget to erase the test code input ---- ")
+    input_result: GeneticAlgoritm = GeneticAlgoritm(20, 20, 30, 10, 2, 2, 1, 50)
     input_result.set_tournament_size(4)
 
     if not input_result:
@@ -38,7 +56,7 @@ def run_genetic_algoritm():
     input_result.current_chromosome_list = []
     actual_generation = 0
 
-    # converting the chromossome and populate the current list
+    # converting the chromosome and populate the current list
     for item in chromosome_binary_list:
         new_chromosome = Chromosome(
             format_binary_code(item, input_result.chromosome_size), actual_generation

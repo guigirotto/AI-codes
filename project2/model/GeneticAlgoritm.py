@@ -7,14 +7,14 @@ class GeneticAlgoritm:
 
     def __init__(
         self,
-        chromosome_size,
-        population_size,
-        crossing_probability,
-        mutation_probability,
-        method_of_selection,
-        elitism_size,
-        quantity_of_crossing,
-        quantity_of_generation,
+        chromosome_size=0,
+        population_size=0,
+        crossing_probability=0,
+        mutation_probability=0,
+        method_of_selection=0,
+        elitism_size=0,
+        quantity_of_crossing=0,
+        quantity_of_generation=0,
     ):
 
         self.population_size = int(population_size)
