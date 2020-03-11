@@ -1,5 +1,5 @@
 #
-# Artificial intelligence - Project 1
+# Artificial intelligence - Project 2
 # Computer Engineering - Semester 9
 # Genetic Algoritm - Using Roullete or Tornament method
 # Date February 09, 2020
@@ -12,62 +12,71 @@ from project2.control.functions import *
 
 
 def test():
-    test_chromosome = Chromosome()
-    for i in range(100):
-        test_chromosome.create_random_genetic_code()
-        check_scale = test_chromosome.check_if_genetic_code_is_valid()
-        if not check_scale["valid"]:
-            if not check_scale["2_turns"]:
-                print("-------Wrong 2 pause--------")
-            if not check_scale["6_pause"]:
-                print("-------Wrong 6 pauses--------")
-            if not check_scale["5_pause"]:
-                print("------Wrong 5 pauses---------")
-            test_chromosome.print_scale()
-            print("\n-----------------------------------------------\n")
+    from project2.model.Pair import Pair
 
-    test_chromosome.print_scale()
+    cr_a = Chromosome(
+        generation=0,
+        genetic_code=[
+            Pair(pair_id=1),
+            Pair(pair_id=5),
+            Pair(pair_id=4),
+            Pair(pair_id=3),
+            Pair(pair_id=2),
+            Pair(pair_id=5),
+            Pair(pair_id=4),
+            Pair(pair_id=1),
+            Pair(pair_id=3),
+            Pair(pair_id=2),
+            Pair(pair_id=4),
+            Pair(pair_id=1),
+            Pair(pair_id=5),
+            Pair(pair_id=2),
+            Pair(pair_id=3),
+            Pair(pair_id=4),
+            Pair(pair_id=1),
+            Pair(pair_id=5),
+            Pair(pair_id=2),
+            Pair(pair_id=3),
+            Pair(pair_id=1),
+        ],
+    )
+    print(cr_a.check_if_genetic_code_is_valid())
+    cr_a.calculate_fitness()
 
 
-def run_genetic_algoritm():
+def run_genetic_algoritm_1():
     # creating genetic algoritm object class
     #  inputResult = get_values_from_user()
 
     # Use only to test
     print("--- ATENTION: Do not forget to erase the test code input ---- ")
-    input_result: GeneticAlgoritm = GeneticAlgoritm(20, 20, 30, 10, 2, 2, 1, 50)
-    input_result.set_tournament_size(4)
+    input_result: GeneticAlgoritm = GeneticAlgoritm(
+        chromosome_size=21,
+        population_size=100,
+        crossing_probability=30,
+        mutation_probability=60,
+        method_of_selection=2,
+        elitism_size=4,
+        quantity_of_crossing=2,
+        quantity_of_generation=100,
+    )
+    input_result.set_tournament_size(10)
 
     if not input_result:
         print("Ops, something went wrong")
         return
 
     #  generating chromosome list
-    chromosome_binary_list = []
     best_chromosome_list = []
-
-    max_value = 2 ** input_result.chromosome_size
-    for item in range(int(input_result.population_size)):
-        random_value = random.randrange(max_value)
-        binary_code = bin(random_value)
-
-        chromosome_binary_list.append(binary_code)
 
     input_result.current_chromosome_list = []
     actual_generation = 0
 
     # converting the chromosome and populate the current list
-    for item in chromosome_binary_list:
-        new_chromosome = Chromosome(
-            format_binary_code(item, input_result.chromosome_size), actual_generation
-        )
-        bin_x, bin_y = (
-            new_chromosome.genetic_code[: int(len(new_chromosome.genetic_code) / 2)],
-            new_chromosome.genetic_code[int(len(new_chromosome.genetic_code) / 2) :],
-        )
-        real_x = input_result.get_conversion_from_binary_to_real_x(bin_x)
-        real_y = input_result.get_conversion_from_binary_to_real_y(bin_y)
-        fitness = calculate_fitness(real_x, real_y)
+    for i in range(input_result.population_size):
+        new_chromosome = Chromosome(generation=actual_generation)
+        new_chromosome.create_really_random_genetic_code()
+        fitness = new_chromosome.calculate_fitness()
         new_chromosome.set_fitness(fitness)
         input_result.current_chromosome_list.append(new_chromosome)
 
@@ -86,8 +95,14 @@ def run_genetic_algoritm():
 
     best_chromosome = get_best_chromosome(input_result.current_chromosome_list)
     best_chromosome_list.append(best_chromosome)
+
     actual_generation += 1
     while actual_generation < input_result.quantity_of_generation:
+        if True:
+            print(f"\n Gen: {actual_generation}\n")
+            for i in input_result.current_chromosome_list:
+                print(i.fitness)
+            print("\n\n")
         new_chromosome_list = []
 
         #  Crossover
@@ -97,23 +112,11 @@ def run_genetic_algoritm():
             )
             #  Need to create chromosome and add on the new list
             for new_chromosome in crossover_chromosomes_genetic_codes:
-
-                bin_x, bin_y = (
-                    new_chromosome.genetic_code[
-                        : int(len(new_chromosome.genetic_code) / 2)
-                    ],
-                    new_chromosome.genetic_code[
-                        int(len(new_chromosome.genetic_code) / 2) :
-                    ],
-                )
-                real_x = input_result.get_conversion_from_binary_to_real_x(bin_x)
-                real_y = input_result.get_conversion_from_binary_to_real_y(bin_y)
-                fitness = calculate_fitness(real_x, real_y)
-
+                fitness = new_chromosome.calculate_fitness()
                 new_chromosome.set_fitness(fitness)
                 new_chromosome_list.append(new_chromosome)
 
-            input_result.current_chromosome_list = new_chromosome_list
+            input_result.current_chromosome_list = new_chromosome_list.copy()
 
         elif input_result.method_of_selection == 2:
             #  crossover tournament
@@ -121,17 +124,12 @@ def run_genetic_algoritm():
                 input_result, generation=actual_generation
             )
             for item in crossover_chromosomes_genetic_codes:
-
-                bin_x, bin_y = (
-                    item.genetic_code[: int(len(item.genetic_code) / 2)],
-                    item.genetic_code[int(len(item.genetic_code) / 2) :],
-                )
-                real_x = input_result.get_conversion_from_binary_to_real_x(bin_x)
-                real_y = input_result.get_conversion_from_binary_to_real_y(bin_y)
-                fitness = calculate_fitness(real_x, real_y)
+                fitness = item.calculate_fitness()
                 item.set_fitness(fitness)
 
-            input_result.current_chromosome_list = crossover_chromosomes_genetic_codes
+            input_result.current_chromosome_list = (
+                crossover_chromosomes_genetic_codes.copy()
+            )
         # list complete
 
         #  Mutations
@@ -142,15 +140,7 @@ def run_genetic_algoritm():
 
         #  Calculating new fitness after mutations
         for item in input_result.current_chromosome_list:
-
-            bin_x, bin_y = (
-                item.genetic_code[: int(len(item.genetic_code) / 2)],
-                item.genetic_code[int(len(item.genetic_code) / 2) :],
-            )
-            real_x = input_result.get_conversion_from_binary_to_real_x(bin_x)
-            real_y = input_result.get_conversion_from_binary_to_real_y(bin_y)
-            fitness = calculate_fitness(real_x, real_y)
-
+            fitness = item.calculate_fitness()
             item.set_fitness(fitness)
 
         #  Calculating chromosome probability for the using on the next crossover if its needed
@@ -175,20 +165,21 @@ def run_genetic_algoritm():
         best_chromosome_list.append(best_chromosome)
 
         actual_generation += 1
-
-    #  End while
-    print("\n\n\n----------- Last Population-----------------")
-    print(input_result.print_chromosomes())
-    print("\n\n\n ------------RESULT---------------- \n")
-    for best_chromosome in best_chromosome_list:
-        print(
-            "CURRENT BEST CHR0MOSOME: "
-            + best_chromosome.genetic_code
-            + "\tGeneration: "
-            + str(best_chromosome.generation)
-            + "\tFitness: "
-            + str(best_chromosome.fitness)
-        )
-
-    show_chart(best_chromosome_list, input_result)
+    if True:
+        #  End while
+        # print("\n\n\n----------- Last Population-----------------")
+        # print(input_result.print_chromosomes())
+        # print("\n\n\n ------------RESULT---------------- \n")
+        for best_chromosome in best_chromosome_list:
+            if best_chromosome.check_if_genetic_code_is_valid()["valid"]:
+                print(
+                    "CURRENT BEST CHR0MOSOME: "
+                    + "\tGeneration: "
+                    + str(best_chromosome.generation)
+                    + "\tFitness: "
+                    + str(best_chromosome.fitness)
+                )
+                best_chromosome.print_scale()
+    print(best_chromosome.print_scale())
+    #    show_chart(best_chromosome_list, input_result)
     show_chart2(best_chromosome_list, input_result.quantity_of_generation)

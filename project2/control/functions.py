@@ -241,26 +241,22 @@ def make_crossover(genetic_algorithm, generation):
 def make_mutation(genetic_algorithm, chromosome):
     from project2.model.Pair import Pair
     import random
+
     list_of_pairs = [
         Pair(pair_id=1, employee_1=1, employee_2=2),
         Pair(pair_id=2, employee_1=3, employee_2=4),
         Pair(pair_id=3, employee_1=5, employee_2=6),
         Pair(pair_id=4, employee_1=7, employee_2=8),
         Pair(pair_id=5, employee_1=9, employee_2=10),
-        ]    
-    for index, item in enumerate(chromosome.genetic_code,start=0):
+    ]
+    for index, item in enumerate(chromosome.genetic_code, start=0):
         probability = random.randint(1, 100)
         if probability < genetic_algorithm.mutation_probability:
-            random_index =  random.randint(0,4)
+            random_index = random.randint(0, 4)
             item = list_of_pairs[random_index]
 
-    return chromosome    
-            
-            
+    return chromosome
 
-    
-    
-        
 
 def get_best_chromosome(chromosome_list):
     best_chromosome = chromosome_list[0]
