@@ -196,7 +196,7 @@ class Chromosome:
         converted_scale = []
         for index, item in enumerate(number_of_scales):
             converted_scale.append(
-                2 * ((item - 4) ** 2) + 0.5 * (interval_between_scales[index] - 4) ** 2
+                5 * ((item - 4) ** 2) + 0.5 * (interval_between_scales[index] - 4) ** 2
             )
 
         #  result = sum((x-media)²)

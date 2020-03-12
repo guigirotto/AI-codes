@@ -53,14 +53,14 @@ def run_genetic_algoritm_1():
     input_result: GeneticAlgoritm = GeneticAlgoritm(
         chromosome_size=21,
         population_size=100,
-        crossing_probability=30,
-        mutation_probability=60,
+        crossing_probability=70,
+        mutation_probability=30,
         method_of_selection=2,
-        elitism_size=4,
+        elitism_size=1,
         quantity_of_crossing=2,
-        quantity_of_generation=100,
+        quantity_of_generation=3000,
     )
-    input_result.set_tournament_size(10)
+    input_result.set_tournament_size(20)
 
     if not input_result:
         print("Ops, something went wrong")
@@ -76,6 +76,7 @@ def run_genetic_algoritm_1():
     for i in range(input_result.population_size):
         new_chromosome = Chromosome(generation=actual_generation)
         new_chromosome.create_really_random_genetic_code()
+        #  new_chromosome.create_random_genetic_code()
         fitness = new_chromosome.calculate_fitness()
         new_chromosome.set_fitness(fitness)
         input_result.current_chromosome_list.append(new_chromosome)
@@ -98,8 +99,8 @@ def run_genetic_algoritm_1():
 
     actual_generation += 1
     while actual_generation < input_result.quantity_of_generation:
-        if True:
-            print(f"\n Gen: {actual_generation}\n")
+        print(f"Gen: {actual_generation}\n")
+        if False:
             for i in input_result.current_chromosome_list:
                 print(i.fitness)
             print("\n\n")
@@ -136,7 +137,9 @@ def run_genetic_algoritm_1():
         for index, item in enumerate(input_result.current_chromosome_list):
             #  Keep the elitism without mutations
             if not (index < input_result.elitism_size):
-                item = make_mutation(input_result, item)
+                input_result.current_chromosome_list[index] = make_mutation(
+                    input_result, item
+                )
 
         #  Calculating new fitness after mutations
         for item in input_result.current_chromosome_list:

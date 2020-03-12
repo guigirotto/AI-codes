@@ -253,7 +253,7 @@ def make_mutation(genetic_algorithm, chromosome):
         probability = random.randint(1, 100)
         if probability < genetic_algorithm.mutation_probability:
             random_index = random.randint(0, 4)
-            item = list_of_pairs[random_index]
+            chromosome.genetic_code[index] = list_of_pairs[random_index]
 
     return chromosome
 
