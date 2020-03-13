@@ -181,14 +181,23 @@ class Chromosome:
 
         is_genetic_code_valid = self.check_if_genetic_code_is_valid()
         validation_operator = 1
+
         if not is_genetic_code_valid["3_turns"]:
             validation_operator = validation_operator * (
                 0.85 ** is_genetic_code_valid["invalid_3_pauses"]
             )
+        else:
+            validation_operator = validation_operator * 1.6
+
         if not is_genetic_code_valid["5_pause"]:
             validation_operator = validation_operator * 0.75
+        else:
+            validation_operator = validation_operator * 1.1
+
         if not is_genetic_code_valid["6_pause"]:
-            validation_operator = validation_operator * 0.75
+            validation_operator = validation_operator * 0.8
+        else:
+            validation_operator = validation_operator * 1.2
 
         avg = 4
         number_of_scales = self.count_scales_by_pair()

@@ -52,13 +52,13 @@ def run_genetic_algoritm_1():
     print("--- ATENTION: Do not forget to erase the test code input ---- ")
     input_result: GeneticAlgoritm = GeneticAlgoritm(
         chromosome_size=21,
-        population_size=100,
+        population_size=50,
         crossing_probability=70,
-        mutation_probability=30,
-        method_of_selection=2,
-        elitism_size=1,
+        mutation_probability=5,
+        method_of_selection=1,
+        elitism_size=0,
         quantity_of_crossing=2,
-        quantity_of_generation=3000,
+        quantity_of_generation=500,
     )
     input_result.set_tournament_size(20)
 
@@ -168,12 +168,25 @@ def run_genetic_algoritm_1():
         best_chromosome_list.append(best_chromosome)
 
         actual_generation += 1
+
+    best_chromosome_from_list = Chromosome(generation=0)
     if True:
         #  End while
         # print("\n\n\n----------- Last Population-----------------")
         # print(input_result.print_chromosomes())
         # print("\n\n\n ------------RESULT---------------- \n")
         for best_chromosome in best_chromosome_list:
+            if best_chromosome.fitness > best_chromosome_from_list.fitness:
+                best_chromosome_from_list = best_chromosome
+            elif (
+                best_chromosome.fitness == best_chromosome_from_list.fitness
+                and not best_chromosome_from_list.check_if_genetic_code_is_valid()[
+                    "valid"
+                ]
+                and best_chromosome.check_if_genetic_code_is_valid()["valid"]
+            ):
+                best_chromosome_from_list = best_chromosome
+
             if best_chromosome.check_if_genetic_code_is_valid()["valid"]:
                 print(
                     "CURRENT BEST CHR0MOSOME: "
@@ -183,6 +196,21 @@ def run_genetic_algoritm_1():
                     + str(best_chromosome.fitness)
                 )
                 best_chromosome.print_scale()
+
+    print("\n\n\t Best chromosome of last generation")
+    print(
+        f"Generation: {best_chromosome.generation} \t Fitness: {best_chromosome.fitness} \n Is valid: {str(best_chromosome.check_if_genetic_code_is_valid())}"
+    )
     print(best_chromosome.print_scale())
+
+    print("\n\n\t Historic best chromosome")
+    print(
+        f"Generation: {best_chromosome_from_list.generation} \t Fitness: {best_chromosome_from_list.fitness} \n Is valid: {str(best_chromosome_from_list.check_if_genetic_code_is_valid())}"
+    )
+    print(best_chromosome_from_list.print_scale())
+    print("Count of scales")
+    print(best_chromosome_from_list.count_scales_by_pair())
+    print("Interval avarage of scales")
+    print(best_chromosome_from_list.count_interval_between_work_by_pair())
     #    show_chart(best_chromosome_list, input_result)
     show_chart2(best_chromosome_list, input_result.quantity_of_generation)

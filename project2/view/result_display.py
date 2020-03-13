@@ -122,5 +122,5 @@ def show_chart2(best_chromosome_list, quantity_of_generation):
         graph.set_data(generation_list[: i + 1], fitness_list[: i + 1])
         return graph
 
-    ani = FuncAnimation(fig, animate, interval=200)
+    ani = FuncAnimation(fig, animate, interval=100)
     plt.show()
