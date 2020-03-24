@@ -1,5 +1,5 @@
 import numpy as np
-
+import random
 
 def matrix_distances():
     c1 = [ 0, 108, 117, 251, 180, 150, 141, 245, 149, 131, 65, 73, 126, 100, 76, 34, 47, 80, 61, 138 ]
@@ -23,7 +23,8 @@ def matrix_distances():
     c19 = [ 61, 168, 116, 272, 172, 186, 200, 304, 204, 192, 120, 128, 110, 93, 112, 33, 101, 24, 0, 193 ]
     c20 = [ 138, 150, 252, 375, 304, 262, 188, 151, 69, 52, 100, 66, 267, 229, 217, 166, 170, 211, 193, 0 ] 
     result = np.matrix([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20])
-    print(result.item((value_matrix(),value_matrix('perdizes'))))
+    #print(result.item((value_matrix(),value_matrix('perdizes'))))
+    return result
 
 def value_matrix(city="uberaba"):
     cities= {}
@@ -51,7 +52,16 @@ def value_matrix(city="uberaba"):
     return cities[city]
 
 def return_cities():
-    return ['uberaba','uberlandia','araxa','patos_de_minas','patrocinio','monte_carmelo','araguari','ituiutaba','prata',
+    cities = ['uberaba','uberlandia','araxa','patos_de_minas','patrocinio','monte_carmelo','araguari','ituiutaba','prata',
     'frutal','conceicao_das_alagoas','campo_florido','perdizes','santa_juliana','nova_ponte','delta','agua_comprida',
     'sacramento','conquista','comendador_gomes']
+    for i in range(len(cities)):
+        n = random.randint(0,19)
+        aux = cities[n]
+        aux2 = cities[i]
+        cities[n] = aux2
+        cities[i] = aux
+    #print(cities)
+    return cities
+            
 
