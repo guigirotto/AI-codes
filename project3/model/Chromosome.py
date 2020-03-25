@@ -30,8 +30,7 @@ class Chromosome:
     def make_mutation(self):
         position_1 = random.randint(0,19)
         position_2 = random.randint(0,19)
-        if(position_1 != position_2):
-            aux1 = self.genetic_code[position_1]
-            aux2 = self.genetic_code[position_2]
-            self.genetic_code[position_2] = aux1
-            self.genetic_code[position_1] = aux2
+        aux1 = self.genetic_code[position_1]
+        aux2 = self.genetic_code[position_2]
+        self.genetic_code[position_2] = aux1
+        self.genetic_code[position_1] = aux2

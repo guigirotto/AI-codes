@@ -52,16 +52,95 @@ def value_matrix(city="uberaba"):
     return cities[city]
 
 def return_cities():
-    cities = ['uberaba','uberlandia','araxa','patos_de_minas','patrocinio','monte_carmelo','araguari','ituiutaba','prata',
+    cities = ['uberlandia','araxa','patos_de_minas','patrocinio','monte_carmelo','araguari','ituiutaba','prata',
     'frutal','conceicao_das_alagoas','campo_florido','perdizes','santa_juliana','nova_ponte','delta','agua_comprida',
     'sacramento','conquista','comendador_gomes']
     for i in range(len(cities)):
-        n = random.randint(0,19)
+        n = random.randint(0,18)
         aux = cities[n]
         aux2 = cities[i]
         cities[n] = aux2
         cities[i] = aux
     #print(cities)
     return cities
-            
 
+def verify_list(chromosomes_list):
+    cities= {}
+    cities['uberlandia'] = 0
+    cities['araxa'] = 0
+    cities['patos_de_minas'] = 0
+    cities['patrocinio'] = 0
+    cities['monte_carmelo'] = 0
+    cities['araguari'] = 0
+    cities['ituiutaba'] = 0
+    cities['prata'] = 0
+    cities['frutal'] = 0
+    cities['conceicao_das_alagoas'] = 0
+    cities['campo_florido'] = 0
+    cities['perdizes'] = 0
+    cities['santa_juliana'] = 0
+    cities['nova_ponte'] = 0
+    cities['delta'] = 0
+    cities['agua_comprida'] = 0
+    cities['sacramento'] = 0
+    cities['conquista'] = 0
+    cities['comendador_gomes'] = 0
+    newList = chromosomes_list.copy()
+    for i in range(len(newList)):
+        cities[newList[i]] = cities[newList[i]] + 1
+    #print(cities)
+    repeat = []
+    empty = []
+
+    for key,value in cities.items():
+        if(value > 1):
+            repeat.append(key)
+        elif (value == 0):
+            empty.append(key)
+
+    
+    for i in range(len(repeat)):
+       for j in range(len(newList)):
+           if(repeat[i] == newList[j]):
+               newList[j]=empty[i]
+               break
+   #print('------------------------')
+    for i in range(len(newList)):
+        cities[newList[i]] = cities[newList[i]] + 1
+    #print(cities)
+    return newList
+
+    
+
+    
+
+def make_crossover_ox(chromosomes_list1,chromosomes_list2):
+    random1 = random.randint(0,18)
+    random2 = random.randint(0,18)
+    #print('Random 1 e 2')
+    #print(random1,random2)
+    #print('------------------------- Listas Originais -----------------------------')
+    #print(chromosomes_list1)
+    #print(chromosomes_list2)
+    sublist1 = []
+    sublist2 = []
+    if(random1 < random2):
+        sublist1 = chromosomes_list1[random1:random2]
+        sublist2 = chromosomes_list2[random1:random2]
+        chromosomes_list1[random1:random2] = sublist2
+        chromosomes_list2[random1:random2] = sublist1
+    else:
+
+        sublist1 = chromosomes_list1[random2:random1]
+        sublist2 = chromosomes_list2[random2:random1]
+        chromosomes_list1[random2:random1] = sublist2
+        chromosomes_list2[random2:random1] = sublist1
+    chromosomes_list1 = verify_list(chromosomes_list1)
+    chromosomes_list12 = verify_list(chromosomes_list2)
+    #print('------------------------- Sublistas       -----------------------------')
+    #print(sublist1)
+    #print(sublist2)
+    #print('------------------------- Listas Alteradas -----------------------------')
+    #print(chromosomes_list1)
+    #print(chromosomes_list2)
+    
