@@ -5,7 +5,7 @@ import random
 class Chromosome:
     def __init__(self, genetic_code=[], generation=0,fitness=0):
         self.genetic_code = genetic_code
-        self.fitness = 0
+        self.fitness = fitness
         self.generation = generation
         self.probability = 0
 

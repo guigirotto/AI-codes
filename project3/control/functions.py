@@ -114,7 +114,7 @@ def verify_list(chromosomes_list):
 def get_best_chromosome(chromosomes_list):
     best_chromosome = chromosomes_list[0]
     for i in range(len(chromosomes_list)):
-        if(chromosomes_list[i].fitness > best_chromosome.fitness):
+        if(chromosomes_list[i].fitness >= best_chromosome.fitness):
             best_chromosome = chromosomes_list[i]
     return best_chromosome
     

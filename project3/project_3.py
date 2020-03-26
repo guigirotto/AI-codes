@@ -60,10 +60,11 @@ def run_genetic_algoritm_2():
         if(input_result.elitism_size > 0):
             elitsm_list = keep_chromosomes_elitism(input_result)
             for i in range(len(elitsm_list)):
-                elitsm_list[i] = Chromosome(elitsm_list[i].genetic_code,actual_generation,elitsm_list[i].fitness)
-                new_chromosome_list[i] = elitsm_list[i] 
+                new_chromosome_list[i] = Chromosome(elitsm_list[i].genetic_code,actual_generation,elitsm_list[i].fitness)
 
-        
+
+
+
         #List complete
 
         #  Mutations
@@ -72,15 +73,17 @@ def run_genetic_algoritm_2():
             if not (index < input_result.elitism_size):
                 new_chromosome_list[index].make_mutation()
               
-
+        
          #  Calculating new fitness after mutations
-        for item in new_chromosome_list:
-            item.calculate_fitness()
-
+        for index, item in enumerate(new_chromosome_list):
+            #  Keep the elitism without mutations
+            if not (index < input_result.elitism_size):
+                new_chromosome_list[index].calculate_fitness()
+   
         #  Get BestChromosome for each generation
         best_chromosome = get_best_chromosome(new_chromosome_list)
         best_chromosome_list.append(best_chromosome)
-        print(best_chromosome.fitness*1000)
+
             
         input_result.current_chromosome_list = new_chromosome_list.copy()
         actual_generation += 1
