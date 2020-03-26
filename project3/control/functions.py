@@ -111,7 +111,12 @@ def verify_list(chromosomes_list):
     return newList
 
     
-
+def get_best_chromosome(chromosomes_list):
+    best_chromosome = chromosomes_list[0]
+    for i in range(len(chromosomes_list)):
+        if(chromosomes_list[i].fitness > best_chromosome.fitness):
+            best_chromosome = chromosomes_list[i]
+    return best_chromosome
     
 
 def make_crossover_ox(chromosomes_list1,chromosomes_list2):
@@ -136,7 +141,7 @@ def make_crossover_ox(chromosomes_list1,chromosomes_list2):
         chromosomes_list1[random2:random1] = sublist2
         chromosomes_list2[random2:random1] = sublist1
     chromosomes_list1 = verify_list(chromosomes_list1)
-    chromosomes_list12 = verify_list(chromosomes_list2)
+    chromosomes_list2 = verify_list(chromosomes_list2)
     #print('------------------------- Sublistas       -----------------------------')
     #print(sublist1)
     #print(sublist2)
