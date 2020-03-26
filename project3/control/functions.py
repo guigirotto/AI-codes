@@ -118,7 +118,16 @@ def get_best_chromosome(chromosomes_list):
             best_chromosome = chromosomes_list[i]
     return best_chromosome
     
+def keep_chromosomes_elitism(genetic_algorithm):
+    chromosome_list = genetic_algorithm.current_chromosome_list.copy()
+    chromosome_to_still_list = []
+    while len(chromosome_to_still_list) < genetic_algorithm.elitism_size:
+        best_chromosome = get_best_chromosome(chromosome_list)
+        chromosome_list.remove(best_chromosome)
+        chromosome_to_still_list.append(best_chromosome)
 
+    return chromosome_to_still_list
+    
 def make_crossover_ox(chromosomes_list1,chromosomes_list2):
     random1 = random.randint(0,18)
     random2 = random.randint(0,18)
@@ -142,6 +151,10 @@ def make_crossover_ox(chromosomes_list1,chromosomes_list2):
         chromosomes_list2[random2:random1] = sublist1
     chromosomes_list1 = verify_list(chromosomes_list1)
     chromosomes_list2 = verify_list(chromosomes_list2)
+    list_return1 = chromosomes_list1.copy()
+    list_return2 = chromosomes_list2.copy()
+
+    return [list_return1,list_return2]
     #print('------------------------- Sublistas       -----------------------------')
     #print(sublist1)
     #print(sublist2)

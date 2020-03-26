@@ -3,7 +3,7 @@ from project3.control.functions import value_matrix
 import numpy as np
 import random
 class Chromosome:
-    def __init__(self, genetic_code=[], generation=0):
+    def __init__(self, genetic_code=[], generation=0,fitness=0):
         self.genetic_code = genetic_code
         self.fitness = 0
         self.generation = generation
