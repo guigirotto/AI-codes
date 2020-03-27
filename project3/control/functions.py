@@ -1,6 +1,7 @@
 import numpy as np
 import random
 
+
 def matrix_distances():
     c1 = [ 0, 108, 117, 251, 180, 150, 141, 245, 149, 131, 65, 73, 126, 100, 76, 34, 47, 80, 61, 138 ]
     c2 = [ 108, 0 , 177, 221, 150, 108, 39, 137, 87, 182, 166, 174, 135, 110, 74, 141, 148, 158, 168, 150 ]
@@ -162,3 +163,52 @@ def make_crossover_ox(chromosomes_list1,chromosomes_list2):
     #print(chromosomes_list1)
     #print(chromosomes_list2)
     
+def make_tournament_selection(genetic_algoritmh):
+    from project3.model.Chromosome import Chromosome
+    selection_list = []
+    list_of_chromosomes = []
+    population_size = genetic_algoritmh.population_size
+    index = 0
+    # generating indexes of selection
+    for i in range(genetic_algoritmh.tournament_size):
+        index = random.randint(0, population_size - 1)
+        while index in selection_list:
+            index = random.randint(0, population_size - 1)
+        selection_list.append(index)
+        list_of_chromosomes.append(genetic_algoritmh.current_chromosome_list[index])
+
+    best_chromosome = Chromosome([], 0)
+    second_best_chromosome = Chromosome([], 0)
+    for item in list_of_chromosomes:
+        if item.fitness > best_chromosome.fitness:
+            second_best_chromosome = best_chromosome
+            best_chromosome = item
+        elif item.fitness > second_best_chromosome.fitness:
+            second_best_chromosome = item
+    return [ best_chromosome, second_best_chromosome ]
+
+def run_tournament_selection(genetic_algoritm, generation):
+    from project3.model.Chromosome import Chromosome
+    new_list = []
+    if genetic_algoritm.elitism_size > 0:
+        chromosomes_list = keep_chromosomes_elitism(genetic_algoritm)
+        for i in chromosomes_list:
+            new_list.append(Chromosome(i.genetic_code,i.generation,i.fitness))
+
+    for i in range(int(genetic_algoritm.population_size / 2)):
+        tournament_result = make_tournament_selection(genetic_algoritm)
+        new_chromosomes = make_crossover_ox(tournament_result[0].genetic_code,tournament_result[1].genetic_code)
+
+        new_chromosome1 = Chromosome(new_chromosomes[0], generation)
+        new_chromosome2 = Chromosome(new_chromosomes[1], generation)
+
+        new_list.append(new_chromosome1)
+        new_list.append(new_chromosome2)
+
+        # print(i, new_chromosomes['gene_a'], new_chromosomes['gene_b'])
+
+    if len(new_list) > genetic_algoritm.population_size:
+        random_number = random.randint(1, 2)
+        del new_list[-random_number]
+
+    return new_list
