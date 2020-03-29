@@ -93,7 +93,7 @@ def show_chart2(best_chromosome_list, quantity_of_generation):
     generation_list = []
 
     for bestChromosome in best_chromosome_list:
-        fitness_list.append(bestChromosome.fitness*100)
+        fitness_list.append(bestChromosome.fitness * 100)
         generation_list.append(bestChromosome.generation)
     print(generation_list)
     fig = plt.figure(1)

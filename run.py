@@ -1,4 +1,4 @@
-from project3.project_3 import run_genetic_algoritm_2,run_teste
+from project3.project_3 import run_genetic_algoritm_2, run_teste
 from project2.project_2 import run_genetic_algoritm_1, test
 from project1.project_1 import run_genetic_algoritm
 

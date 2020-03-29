@@ -55,7 +55,7 @@ def run_genetic_algoritm_1():
         population_size=50,
         crossing_probability=70,
         mutation_probability=5,
-        method_of_selection=1,
+        method_of_selection=2,
         elitism_size=0,
         quantity_of_crossing=2,
         quantity_of_generation=500,

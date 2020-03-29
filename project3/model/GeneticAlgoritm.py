@@ -30,7 +30,6 @@ class GeneticAlgoritm:
     def set_tournament_size(self, tournament_size):
         self.tournament_size = int(tournament_size)
 
-
     def set_best_chromosome(self, new_chromosome, generation, fitness):
         self.best_chromosome = new_chromosome
         self.best_chromosome_generation = generation
