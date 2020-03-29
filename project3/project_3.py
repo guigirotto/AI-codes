@@ -21,9 +21,9 @@ def run_genetic_algoritm_2():
         crossing_probability=70,
         mutation_probability=5,
         method_of_selection=1,
-        elitism_size=1,
+        elitism_size=0,
         quantity_of_crossing=2,
-        quantity_of_generation=10,
+        quantity_of_generation=100,
     )
     input_result.set_tournament_size(20)
 
@@ -49,21 +49,15 @@ def run_genetic_algoritm_2():
     for index, item in enumerate(input_result.current_chromosome_list):
         if index == 0:
             probability = calculate_roulette_probability(item.fitness, sum_fitness)
-            #print(probability)
             item.set_probability(probability)
             sum_prob += probability
         else:
             probability = calculate_roulette_probability(item.fitness, sum_fitness)
-            #print(probability)
             sum_prob += probability
             item.set_probability(sum_prob)
 
     best_chromosome = get_best_chromosome(input_result.current_chromosome_list)
     best_chromosome_list.append(best_chromosome)
-    #print('----------------------------------------')
-    #for i in input_result.current_chromosome_list:
-     #   print(i.probability)
-    #print('----------------------------------------')
     actual_generation += 1
     while actual_generation < input_result.quantity_of_generation:
         new_chromosome_list= []
@@ -87,6 +81,7 @@ def run_genetic_algoritm_2():
                 elitsm_list = keep_chromosomes_elitism(input_result)
                 for i in range(len(elitsm_list)):
                     new_chromosome_list[i] = Chromosome(elitsm_list[i].genetic_code,actual_generation,elitsm_list[i].fitness)
+                    new_chromosome_list[i].set_probability(elitsm_list[i].probability)
         elif input_result.method_of_selection == 2:
             #  crossover tournament
             crossover_chromosomes_genetic_codes = run_tournament_selection(
@@ -118,7 +113,7 @@ def run_genetic_algoritm_2():
         #  Calculating chromosome probability for the using on the next crossover if its needed
         sum_fitness = calculate_fitness_sum(input_result)
         sum_prob = 0
-        for index, item in enumerate(input_result.current_chromosome_list):
+        for index, item in enumerate(new_chromosome_list):
             if index == 0:
                 probability = calculate_roulette_probability(item.fitness, sum_fitness)
                 item.set_probability(probability)

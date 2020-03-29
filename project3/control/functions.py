@@ -252,7 +252,7 @@ def make_roullete(genetic_algorithm,generation):
             second_dad = select_chromosome_for_crossover(genetic_algorithm)
             # Testing if it is the same dad
             while first_dad == second_dad:
-                print(first_dad.probability)
+                #print(first_dad.probability)
                 second_dad = select_chromosome_for_crossover(genetic_algorithm)
 
             # Test if the chromosomes can make a crossover. If not, keep the selected dads  for the next generation.
