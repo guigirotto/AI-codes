@@ -42,16 +42,34 @@ def run_genetic_algoritm_2():
         new_chromosome = Chromosome(return_cities(),actual_generation)
         new_chromosome.calculate_fitness()
         input_result.current_chromosome_list.append(new_chromosome)
+    
+    sum_fitness = calculate_fitness_sum(input_result)
+    sum_prob = 0
+
+    for index, item in enumerate(input_result.current_chromosome_list):
+        if index == 0:
+            probability = calculate_roulette_probability(item.fitness, sum_fitness)
+            #print(probability)
+            item.set_probability(probability)
+            sum_prob += probability
+        else:
+            probability = calculate_roulette_probability(item.fitness, sum_fitness)
+            #print(probability)
+            sum_prob += probability
+            item.set_probability(sum_prob)
 
     best_chromosome = get_best_chromosome(input_result.current_chromosome_list)
     best_chromosome_list.append(best_chromosome)
-
+    #print('----------------------------------------')
+    #for i in input_result.current_chromosome_list:
+     #   print(i.probability)
+    #print('----------------------------------------')
     actual_generation += 1
     while actual_generation < input_result.quantity_of_generation:
         new_chromosome_list= []
         #crossover
         if input_result.method_of_selection == 1:
-            for i in range(0,len(input_result.current_chromosome_list),2):
+          """   for i in range(0,len(input_result.current_chromosome_list),2):
                 chromosome_1 = input_result.current_chromosome_list[i]
                 chromosome_2 = input_result.current_chromosome_list[i+1]
                 chromosome_list_1 = chromosome_1.genetic_code
@@ -62,9 +80,10 @@ def run_genetic_algoritm_2():
                 new_chromosome1.calculate_fitness()
                 new_chromosome2.calculate_fitness()
                 new_chromosome_list.append(new_chromosome1)
-                new_chromosome_list.append(new_chromosome2)
+                new_chromosome_list.append(new_chromosome2) """
+        new_chromosome_list = make_roullete(input_result,actual_generation)
             
-            if(input_result.elitism_size > 0):
+        if(input_result.elitism_size > 0):
                 elitsm_list = keep_chromosomes_elitism(input_result)
                 for i in range(len(elitsm_list)):
                     new_chromosome_list[i] = Chromosome(elitsm_list[i].genetic_code,actual_generation,elitsm_list[i].fitness)
@@ -95,7 +114,21 @@ def run_genetic_algoritm_2():
             #  Keep the elitism without mutations
             if not (index < input_result.elitism_size):
                 new_chromosome_list[index].calculate_fitness()
-   
+
+        #  Calculating chromosome probability for the using on the next crossover if its needed
+        sum_fitness = calculate_fitness_sum(input_result)
+        sum_prob = 0
+        for index, item in enumerate(input_result.current_chromosome_list):
+            if index == 0:
+                probability = calculate_roulette_probability(item.fitness, sum_fitness)
+                item.set_probability(probability)
+                sum_prob += probability
+            else:
+                probability = calculate_roulette_probability(item.fitness, sum_fitness)
+                sum_prob += probability
+                item.set_probability(sum_prob)
+
+
         #  Get BestChromosome for each generation
         best_chromosome = get_best_chromosome(new_chromosome_list)
         best_chromosome_list.append(Chromosome(best_chromosome.genetic_code,actual_generation,best_chromosome.fitness))

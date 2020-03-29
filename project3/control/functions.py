@@ -132,11 +132,6 @@ def keep_chromosomes_elitism(genetic_algorithm):
 def make_crossover_ox(chromosomes_list1,chromosomes_list2):
     random1 = random.randint(0,18)
     random2 = random.randint(0,18)
-    #print('Random 1 e 2')
-    #print(random1,random2)
-    #print('------------------------- Listas Originais -----------------------------')
-    #print(chromosomes_list1)
-    #print(chromosomes_list2)
     sublist1 = []
     sublist2 = []
     if(random1 < random2):
@@ -156,12 +151,7 @@ def make_crossover_ox(chromosomes_list1,chromosomes_list2):
     list_return2 = chromosomes_list2.copy()
 
     return [list_return1,list_return2]
-    #print('------------------------- Sublistas       -----------------------------')
-    #print(sublist1)
-    #print(sublist2)
-    #print('------------------------- Listas Alteradas -----------------------------')
-    #print(chromosomes_list1)
-    #print(chromosomes_list2)
+
     
 def make_tournament_selection(genetic_algoritmh):
     from project3.model.Chromosome import Chromosome
@@ -212,3 +202,96 @@ def run_tournament_selection(genetic_algoritm, generation):
         del new_list[-random_number]
 
     return new_list
+
+def calculate_roulette_probability(fitness_value, fitness_summation):
+    probability = fitness_value / fitness_summation
+    return probability
+
+def calculate_fitness_sum(genetic_algorithm):
+    sum_fitness = 0
+    for item in genetic_algorithm.current_chromosome_list:
+        sum_fitness += item.fitness
+    return sum_fitness
+
+def select_chromosome_for_crossover(genetic_algorithm):
+    import random
+
+    selected_prob = random.uniform(0, 1)
+    selected_chromosome = None
+    for index, item in enumerate(genetic_algorithm.current_chromosome_list):
+        if index == 0:
+            if 0 <= selected_prob < item.probability:
+                selected_chromosome = item
+        elif item == genetic_algorithm.current_chromosome_list[-1]:
+            if (
+                genetic_algorithm.current_chromosome_list[index - 1].probability
+                <= selected_prob
+                <= 1
+            ):
+                selected_chromosome = item
+        else:
+            if (
+                genetic_algorithm.current_chromosome_list[index - 1].probability
+                <= selected_prob
+                < item.probability
+            ):
+                selected_chromosome = item
+
+    return selected_chromosome
+
+def make_roullete(genetic_algorithm,generation):
+    from project3.model.Chromosome import Chromosome
+    chromosomes_list = []
+    can_add = True
+    new_genetic_code_list = []
+    while len(new_genetic_code_list) < genetic_algorithm.population_size:
+            can_add = True
+            probability = random.randint(1, 100)
+
+            first_dad = select_chromosome_for_crossover(genetic_algorithm)
+            second_dad = select_chromosome_for_crossover(genetic_algorithm)
+            # Testing if it is the same dad
+            while first_dad == second_dad:
+                print(first_dad.probability)
+                second_dad = select_chromosome_for_crossover(genetic_algorithm)
+
+            # Test if the chromosomes can make a crossover. If not, keep the selected dads  for the next generation.
+            if probability > genetic_algorithm.crossing_probability:
+                if first_dad.genetic_code in new_genetic_code_list:
+                    can_add = False
+
+                if second_dad.genetic_code in new_genetic_code_list:
+                    can_add = False
+
+                if can_add:
+                    new_genetic_code_list.append(first_dad.genetic_code)
+                    new_genetic_code_list.append(second_dad.genetic_code)
+
+            else:
+                # It can't be 0. When we get 0, no separation occurs
+                newList = make_crossover_ox(first_dad.genetic_code,second_dad.genetic_code)
+
+                first_genetic_code = newList[0]
+                second_genetic_code = newList[1]
+                
+                if first_genetic_code in new_genetic_code_list:
+                    can_add = False
+
+                if second_genetic_code in new_genetic_code_list:
+                    can_add = False
+
+                if can_add:
+                    new_genetic_code_list.append(first_genetic_code)
+                    new_genetic_code_list.append(second_genetic_code)
+
+    if len(new_genetic_code_list) > genetic_algorithm.population_size:
+            random_number = random.randint(1, 2)
+            del new_genetic_code_list[-random_number]
+
+    for index, item in enumerate(new_genetic_code_list):
+            if not (index < genetic_algorithm.elitism_size):
+                new_chromosome = Chromosome(item, generation)
+                new_chromosome.calculate_fitness()
+                chromosomes_list.append(new_chromosome)
+
+    return chromosomes_list
