@@ -1,4 +1,4 @@
-from project4.model.Chromosome import Chromosome
+from project4.model.Chromossome import Chromosome
 
 
 def check_if_user_type_only_digits(
