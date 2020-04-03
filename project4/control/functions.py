@@ -1,41 +1,41 @@
-from project4.model.Chromossome import Chromossome
+from project4.model.Chromosome import Chromosome
 
 
 def check_if_user_type_only_digits(
-    chromossomeSize,
-    populationSize,
-    crossingProbability,
-    mutationProbability,
-    methodOfSelection,
-    elitismSize,
-    quantityOfCrossing,
-    quantityOfGeneration,
+    chromosome_size,
+    population_size,
+    crossing_probability,
+    mutation_probability,
+    method_of_selection,
+    elitism_size,
+    quantity_of_crossing,
+    quantity_of_generation,
 ):
-    if not chromossomeSize.isdigit():
+    if not chromosome_size.isdigit():
         return False
-    if not populationSize.isdigit():
+    if not population_size.isdigit():
         return False
-    if not crossingProbability.isdigit():
+    if not crossing_probability.isdigit():
         return False
-    if not mutationProbability.isdigit():
+    if not mutation_probability.isdigit():
         return False
-    if not methodOfSelection.isdigit():
+    if not method_of_selection.isdigit():
         return False
-    if not elitismSize.isdigit():
+    if not elitism_size.isdigit():
         return False
-    if not quantityOfCrossing.isdigit():
+    if not quantity_of_crossing.isdigit():
         return False
-    if not quantityOfGeneration.isdigit():
+    if not quantity_of_generation.isdigit():
         return False
     return True
 
 
-def format_binary_code(binaryCode, chromossomeSize):
-    # getting only the binari part of 0b0101010
-    binaryString = str(binaryCode).split("b")[1]
-    for i in range(chromossomeSize - len(binaryString)):
-        binaryString = "0" + binaryString
-    return binaryString
+def format_binary_code(binary_code, chromosome_size):
+    #  getting only the binary part of 0b0101010
+    binary_string = str(binary_code).split("b")[1]
+    for i in range(chromosome_size - len(binary_string)):
+        binary_string = "0" + binary_string
+    return binary_string
 
 
 def calculate_fitness(value_x, value_y):
@@ -55,320 +55,323 @@ def calculate_roulette_probability(fitness_value, fitness_summation):
 
 
 def calculate_fitness_sum(genetic_algorithm):
-    sumFitness = 0
-    for item in genetic_algorithm.currentChromossomeList:
-        sumFitness += item.fitness
-    return sumFitness
+    sum_fitness = 0
+    for item in genetic_algorithm.current_chromosome_list:
+        sum_fitness += item.fitness
+    return sum_fitness
 
 
-def select_chromossome_for_crossover(genetic_algorithm):
+def select_chromosome_for_crossover(genetic_algorithm):
     import random
 
-    selectedProb = random.uniform(0, 1)
-
-    for index, item in enumerate(genetic_algorithm.currentChromossomeList):
+    selected_prob = random.uniform(0, 1)
+    selected_chromosome = None
+    for index, item in enumerate(genetic_algorithm.current_chromosome_list):
         if index == 0:
-            if 0 <= selectedProb < item.probability:
-                selectedChromossome = item
-        elif item == genetic_algorithm.currentChromossomeList[-1]:
+            if 0 <= selected_prob < item.probability:
+                selected_chromosome = item
+        elif item == genetic_algorithm.current_chromosome_list[-1]:
             if (
-                genetic_algorithm.currentChromossomeList[index - 1].probability
-                <= selectedProb
+                genetic_algorithm.current_chromosome_list[index - 1].probability
+                <= selected_prob
                 <= 1
             ):
-                selectedChromossome = item
+                selected_chromosome = item
         else:
             if (
-                genetic_algorithm.currentChromossomeList[index - 1].probability
-                <= selectedProb
+                genetic_algorithm.current_chromosome_list[index - 1].probability
+                <= selected_prob
                 < item.probability
             ):
-                selectedChromossome = item
+                selected_chromosome = item
 
-    return selectedChromossome
+    return selected_chromosome
 
 
-def keep_chromossomes_elitism(genetic_algorithm):
-    chromossomeList = genetic_algorithm.currentChromossomeList.copy()
-    chromossomesToStillList = []
-    while len(chromossomesToStillList) < genetic_algorithm.elitismSize:
-        bestChromossome = get_best_chromossome(chromossomeList)
-        chromossomeList.remove(bestChromossome)
-        chromossomesToStillList.append(bestChromossome)
+def keep_chromosomes_elitism(genetic_algorithm):
+    chromosome_list = genetic_algorithm.current_chromosome_list.copy()
+    chromosome_to_still_list = []
+    while len(chromosome_to_still_list) < genetic_algorithm.elitism_size:
+        best_chromosome = get_best_chromosome(chromosome_list)
+        chromosome_list.remove(best_chromosome)
+        chromosome_to_still_list.append(best_chromosome)
 
-    return chromossomesToStillList
+    return chromosome_to_still_list
 
 
 def make_crossover(genetic_algorithm, generation):
     import random
 
-    canAdd = True
-    newGeneticCodeList = []
+    can_add = True
+    new_genetic_code_list = []
 
-    if genetic_algorithm.elitismSize > 0:
-        chromossomesList = keep_chromossomes_elitism(genetic_algorithm)
-        for i in chromossomesList:
-            newGeneticCodeList.append(i.geneticCode)
+    if genetic_algorithm.elitism_size > 0:
+        chromosomes_list = keep_chromosomes_elitism(genetic_algorithm)
+        for i in chromosomes_list:
+            new_genetic_code_list.append(i.genetic_code)
     else:
-        chromossomesList = []
+        chromosomes_list = []
 
-    if genetic_algorithm.quantityOfCrossing == 1:
-        while len(newGeneticCodeList) < genetic_algorithm.populationSize:
-            canAdd = True
+    if genetic_algorithm.quantity_of_crossing == 1:
+        while len(new_genetic_code_list) < genetic_algorithm.population_size:
+            can_add = True
             probability = random.randint(1, 100)
 
-            firstDad = select_chromossome_for_crossover(genetic_algorithm)
-            secondDad = select_chromossome_for_crossover(genetic_algorithm)
+            first_dad = select_chromosome_for_crossover(genetic_algorithm)
+            second_dad = select_chromosome_for_crossover(genetic_algorithm)
             # Testing if it is the same dad
-            while firstDad == secondDad:
-                secondDad = select_chromossome_for_crossover(genetic_algorithm)
+            while first_dad == second_dad:
+                second_dad = select_chromosome_for_crossover(genetic_algorithm)
 
-            # Test if the chromossomes can make a crossover. If not, keep the selected dads  for the next generation.
-            if probability > genetic_algorithm.crossingProbability:
-                if firstDad.geneticCode in newGeneticCodeList:
-                    canAdd = False
+            # Test if the chromosomes can make a crossover. If not, keep the selected dads  for the next generation.
+            if probability > genetic_algorithm.crossing_probability:
+                if first_dad.genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if secondDad.geneticCode in newGeneticCodeList:
-                    canAdd = False
+                if second_dad.genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if canAdd:
-                    newGeneticCodeList.append(firstDad.geneticCode)
-                    newGeneticCodeList.append(secondDad.geneticCode)
+                if can_add:
+                    new_genetic_code_list.append(first_dad.genetic_code)
+                    new_genetic_code_list.append(second_dad.genetic_code)
 
             else:
                 # It can't be 0. When we get 0, no separation occurs
-
-                indexSeparation = random.randint(
-                    1, (genetic_algorithm.chromossomeSize - 1)
+                index_separation = random.randint(
+                    1, (genetic_algorithm.chromosome_size - 1)
                 )
 
-                firstGeneticCode = (
-                    firstDad.geneticCode[:indexSeparation]
-                    + secondDad.geneticCode[indexSeparation:]
+                first_genetic_code = (
+                    first_dad.genetic_code[:index_separation]
+                    + second_dad.genetic_code[index_separation:]
                 )
-                secondGeneticCode = (
-                    secondDad.geneticCode[:indexSeparation]
-                    + firstDad.geneticCode[indexSeparation:]
+                second_genetic_code = (
+                    second_dad.genetic_code[:index_separation]
+                    + first_dad.genetic_code[index_separation:]
                 )
-                if firstGeneticCode in newGeneticCodeList:
-                    canAdd = False
+                if first_genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if secondGeneticCode in newGeneticCodeList:
-                    canAdd = False
+                if second_genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if canAdd:
-                    newGeneticCodeList.append(firstGeneticCode)
-                    newGeneticCodeList.append(secondGeneticCode)
+                if can_add:
+                    new_genetic_code_list.append(first_genetic_code)
+                    new_genetic_code_list.append(second_genetic_code)
 
-        if len(newGeneticCodeList) > genetic_algorithm.populationSize:
-            randomNumber = random.randint(1, 2)
-            del newGeneticCodeList[-randomNumber]
+        if len(new_genetic_code_list) > genetic_algorithm.population_size:
+            random_number = random.randint(1, 2)
+            del new_genetic_code_list[-random_number]
 
-        for index, item in enumerate(newGeneticCodeList):
-            if not (index < genetic_algorithm.elitismSize):
-                newChromossome = Chromossome(item, generation)
-                chromossomesList.append(newChromossome)
+        for index, item in enumerate(new_genetic_code_list):
+            if not (index < genetic_algorithm.elitism_size):
+                new_chromosome = Chromosome(item, generation)
+                chromosomes_list.append(new_chromosome)
 
-        return chromossomesList
+        return chromosomes_list
 
-    elif genetic_algorithm.quantityOfCrossing == 2:
-        while len(newGeneticCodeList) < genetic_algorithm.populationSize:
-            canAdd = True
+    elif genetic_algorithm.quantity_of_crossing == 2:
+        while len(new_genetic_code_list) < genetic_algorithm.population_size:
+            can_add = True
             probability = random.randint(1, 100)
 
-            firstDad = select_chromossome_for_crossover(genetic_algorithm)
-            secondDad = select_chromossome_for_crossover(genetic_algorithm)
+            first_dad = select_chromosome_for_crossover(genetic_algorithm)
+            second_dad = select_chromosome_for_crossover(genetic_algorithm)
             # Testing if its the same dad
-            while firstDad == secondDad:
-                secondDad = select_chromossome_for_crossover(genetic_algorithm)
+            while first_dad == second_dad:
+                second_dad = select_chromosome_for_crossover(genetic_algorithm)
 
-            # Test if the chromossomes can make a crossover. If not, keep the selected dads  for the next generation.
-            if probability > genetic_algorithm.crossingProbability:
-                if firstDad.geneticCode in newGeneticCodeList:
-                    canAdd = False
+            # Test if the chromosomes can make a crossover. If not, keep the selected dads  for the next generation.
+            if probability > genetic_algorithm.crossing_probability:
+                if first_dad.genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if secondDad.geneticCode in newGeneticCodeList:
-                    canAdd = False
+                if second_dad.genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if canAdd:
-                    newGeneticCodeList.append(firstDad.geneticCode)
-                    newGeneticCodeList.append(secondDad.geneticCode)
+                if can_add:
+                    new_genetic_code_list.append(first_dad.genetic_code)
+                    new_genetic_code_list.append(second_dad.genetic_code)
 
             else:
-                # It can't be 0. When we get 0, no separation occurs and It needs to have at least a number higher than the low serapator.
-                indexSeparationLow = random.randint(
-                    1, (genetic_algorithm.chromossomeSize - 2)
+                # It can't be 0. When we get 0, no separation occurs and It needs to have at least a number higher
+                # than the low separator.
+                index_separation_low = random.randint(
+                    1, (genetic_algorithm.chromosome_size - 2)
                 )
-                indexSeparationHigh = random.randint(
-                    indexSeparationLow + 1, (genetic_algorithm.chromossomeSize - 1)
-                )
-
-                firstGeneticCode = (
-                    firstDad.geneticCode[:indexSeparationLow]
-                    + secondDad.geneticCode[indexSeparationLow:indexSeparationHigh]
-                    + firstDad.geneticCode[indexSeparationHigh:]
-                )
-                secondGeneticCode = (
-                    secondDad.geneticCode[:indexSeparationLow]
-                    + firstDad.geneticCode[indexSeparationLow:indexSeparationHigh]
-                    + secondDad.geneticCode[indexSeparationHigh:]
+                index_separation_high = random.randint(
+                    index_separation_low + 1, (genetic_algorithm.chromosome_size - 1)
                 )
 
-                if firstGeneticCode in newGeneticCodeList:
-                    canAdd = False
+                first_genetic_code = (
+                    first_dad.genetic_code[:index_separation_low]
+                    + second_dad.genetic_code[
+                        index_separation_low:index_separation_high
+                    ]
+                    + first_dad.genetic_code[index_separation_high:]
+                )
+                second_genetic_code = (
+                    second_dad.genetic_code[:index_separation_low]
+                    + first_dad.genetic_code[index_separation_low:index_separation_high]
+                    + second_dad.genetic_code[index_separation_high:]
+                )
 
-                if secondGeneticCode in newGeneticCodeList:
-                    canAdd = False
+                if first_genetic_code in new_genetic_code_list:
+                    can_add = False
 
-                if canAdd:
-                    newGeneticCodeList.append(firstGeneticCode)
-                    newGeneticCodeList.append(secondGeneticCode)
+                if second_genetic_code in new_genetic_code_list:
+                    can_add = False
 
-        if len(newGeneticCodeList) > genetic_algorithm.populationSize:
-            randomNumber = random.randint(1, 2)
-            del newGeneticCodeList[-randomNumber]
+                if can_add:
+                    new_genetic_code_list.append(first_genetic_code)
+                    new_genetic_code_list.append(second_genetic_code)
 
-        for index, item in enumerate(newGeneticCodeList):
-            if not (index < genetic_algorithm.elitismSize):
-                newChromossome = Chromossome(item, generation)
-                chromossomesList.append(newChromossome)
+        if len(new_genetic_code_list) > genetic_algorithm.population_size:
+            random_number = random.randint(1, 2)
+            del new_genetic_code_list[-random_number]
 
-        return chromossomesList
+        for index, item in enumerate(new_genetic_code_list):
+            if not (index < genetic_algorithm.elitism_size):
+                new_chromosome = Chromosome(item, generation)
+                chromosomes_list.append(new_chromosome)
+
+        return chromosomes_list
 
 
-def make_mutation(genetic_algorithm, cromossome):
+def make_mutation(genetic_algorithm, chromosome):
     import random
 
-    cromossomeArray = list(cromossome.geneticCode)
-    cromossomeGeneticList = []
-    for item in genetic_algorithm.currentChromossomeList:
-        cromossomeGeneticList.append(item.geneticCode)
+    chromosome_array = list(chromosome.genetic_code)
+    chromosome_genetic_list = []
+    for item in genetic_algorithm.current_chromosome_list:
+        chromosome_genetic_list.append(item.genetic_code)
 
-    for i in range(len(cromossomeArray)):
+    for i in range(len(chromosome_array)):
         probability = random.randint(1, 100)
 
-        if probability < genetic_algorithm.mutationProbability:
+        if probability < genetic_algorithm.mutation_probability:
 
-            if cromossomeArray[i] == "1":
-                cromossomeArray[i] = "0"
+            if chromosome_array[i] == "1":
+                chromosome_array[i] = "0"
 
-            elif cromossomeArray[i] == "0":
-                cromossomeArray[i] = "1"
+            elif chromosome_array[i] == "0":
+                chromosome_array[i] = "1"
 
-        newGeneticCode = "".join(cromossomeArray)
+        new_genetic_code = "".join(chromosome_array)
 
-        # Don't let equal cromossomes
-        if newGeneticCode in cromossomeGeneticList:
+        # Don't let equal chromosomes
+        if new_genetic_code in chromosome_genetic_list:
             return
 
         else:
-            cromossome.geneticCode = "".join(cromossomeArray)
+            chromosome.genetic_code = "".join(chromosome_array)
 
-    return cromossome
-
-
-def get_best_chromossome(chromossomeList):
-    bestChromossome = chromossomeList[0]
-    for item in chromossomeList:
-        if item.fitness >= bestChromossome.fitness:
-            bestChromossome = item
-
-    return bestChromossome
+    return chromosome
 
 
-def run_tournment_selection(genetic_algoritm, generation):
+def get_best_chromosome(chromosome_list):
+    best_chromosome = chromosome_list[0]
+    for item in chromosome_list:
+        if item.fitness >= best_chromosome.fitness:
+            best_chromosome = item
+
+    return best_chromosome
+
+
+def run_tournament_selection(genetic_algoritm, generation):
     import random
 
-    newList = []
-    if genetic_algoritm.elitismSize > 0:
-        chromossomesList = keep_chromossomes_elitism(genetic_algoritm)
-        for i in chromossomesList:
-            newList.append(i)
+    new_list = []
+    if genetic_algoritm.elitism_size > 0:
+        chromosomes_list = keep_chromosomes_elitism(genetic_algoritm)
+        for i in chromosomes_list:
+            new_list.append(i)
 
-    for i in range(int(genetic_algoritm.populationSize / 2)):
-        tournmentResult = make_tournment_selection(genetic_algoritm)
-        newChromossomes = make_crossing_with_two_chromossomes(
-            tournmentResult["bestChromossome"],
-            tournmentResult["secondBestChromossome"],
-            genetic_algoritm.chromossomeSize,
-            genetic_algoritm.quantityOfCrossing,
+    for i in range(int(genetic_algoritm.population_size / 2)):
+        tournament_result = make_tournament_selection(genetic_algoritm)
+        new_chromosomes = make_crossing_with_two_chromosomes(
+            tournament_result["best_chromosome"],
+            tournament_result["second_best_chromosome"],
+            genetic_algoritm.chromosome_size,
+            genetic_algoritm.quantity_of_crossing,
         )
 
-        newChromossome1 = Chromossome(newChromossomes["geneA"], generation)
-        newChromossome2 = Chromossome(newChromossomes["geneB"], generation)
+        new_chromosome1 = Chromosome(new_chromosomes["gene_a"], generation)
+        new_chromosome2 = Chromosome(new_chromosomes["gene_b"], generation)
 
-        newList.append(newChromossome1)
-        newList.append(newChromossome2)
+        new_list.append(new_chromosome1)
+        new_list.append(new_chromosome2)
 
-        # print(i, newChromossomes['geneA'], newChromossomes['geneB'])
+        # print(i, new_chromosomes['gene_a'], new_chromosomes['gene_b'])
 
-    if len(newList) > genetic_algoritm.populationSize:
-        randomNumber = random.randint(1, 2)
-        del newList[-randomNumber]
+    if len(new_list) > genetic_algoritm.population_size:
+        random_number = random.randint(1, 2)
+        del new_list[-random_number]
 
-    return newList
+    return new_list
 
 
-def make_tournment_selection(genetic_algoritm):
+def make_tournament_selection(genetic_algoritmh):
     import random
-    from project4.model.Chromossome import Chromossome
 
-    selectionList = []
-    listOfChromossomes = []
-    populationSize = genetic_algoritm.populationSize
+    selection_list = []
+    list_of_chromosomes = []
+    population_size = genetic_algoritmh.population_size
     index = 0
     # generating indexes of selection
-    for i in range(genetic_algoritm.tournmentSize):
-        index = random.randint(0, populationSize - 1)
-        while index in selectionList:
-            index = random.randint(0, populationSize - 1)
-        selectionList.append(index)
-        listOfChromossomes.append(genetic_algoritm.currentChromossomeList[index])
+    for i in range(genetic_algoritmh.tournament_size):
+        index = random.randint(0, population_size - 1)
+        while index in selection_list:
+            index = random.randint(0, population_size - 1)
+        selection_list.append(index)
+        list_of_chromosomes.append(genetic_algoritmh.current_chromosome_list[index])
 
-    bestChromossome = Chromossome(0, 0)
-    secondBestChromossome = Chromossome(0, 0)
-    for item in listOfChromossomes:
-        if item.fitness > bestChromossome.fitness:
-            secondBestChromossome = bestChromossome
-            bestChromossome = item
-        elif item.fitness > secondBestChromossome.fitness:
-            secondBestChromossome = item
+    best_chromosome = Chromosome(0, 0)
+    second_best_chromosome = Chromosome(0, 0)
+    for item in list_of_chromosomes:
+        if item.fitness > best_chromosome.fitness:
+            second_best_chromosome = best_chromosome
+            best_chromosome = item
+        elif item.fitness > second_best_chromosome.fitness:
+            second_best_chromosome = item
     return {
-        "bestChromossome": bestChromossome,
-        "secondBestChromossome": secondBestChromossome,
+        "best_chromosome": best_chromosome,
+        "second_best_chromosome": second_best_chromosome,
     }
 
 
-def make_crossing_with_two_chromossomes(
-    geneA, geneB, chromossomeSize, quantityCrossing
+def make_crossing_with_two_chromosomes(
+    gene_a, gene_b, chromosome_size, quantity_of_crossing
 ):
     import random
 
-    if quantityCrossing == 1:
-        indexSeparation = random.randint(1, (chromossomeSize - 1))
+    if quantity_of_crossing == 1:
+        index_separation = random.randint(1, (chromosome_size - 1))
 
-        newGeneA = (
-            geneA.geneticCode[:indexSeparation] + geneB.geneticCode[indexSeparation:]
+        new_gene_a = (
+            gene_a.genetic_code[:index_separation]
+            + gene_b.genetic_code[index_separation:]
         )
-        newGeneB = (
-            geneB.geneticCode[:indexSeparation] + geneA.geneticCode[indexSeparation:]
+        new_gene_b = (
+            gene_b.genetic_code[:index_separation]
+            + gene_a.genetic_code[index_separation:]
         )
-        return {"geneA": newGeneA, "geneB": newGeneB}
-    elif quantityCrossing == 2:
-        indexSeparationLow = random.randint(1, (chromossomeSize - 2))
-        indexSeparationHigh = random.randint(
-            indexSeparationLow + 1, (chromossomeSize - 1)
+        return {"gene_a": new_gene_a, "gene_b": new_gene_b}
+    elif quantity_of_crossing == 2:
+        index_separation_low = random.randint(1, (chromosome_size - 2))
+        index_separation_high = random.randint(
+            index_separation_low + 1, (chromosome_size - 1)
         )
 
-        firstGeneticCode = (
-            geneA.geneticCode[:indexSeparationLow]
-            + geneB.geneticCode[indexSeparationLow:indexSeparationHigh]
-            + geneA.geneticCode[indexSeparationHigh:]
+        first_genetic_code = (
+            gene_a.genetic_code[:index_separation_low]
+            + gene_b.genetic_code[index_separation_low:index_separation_high]
+            + gene_a.genetic_code[index_separation_high:]
         )
-        secondGeneticCode = (
-            geneB.geneticCode[:indexSeparationLow]
-            + geneA.geneticCode[indexSeparationLow:indexSeparationHigh]
-            + geneB.geneticCode[indexSeparationHigh:]
+        second_genetic_code = (
+            gene_b.genetic_code[:index_separation_low]
+            + gene_a.genetic_code[index_separation_low:index_separation_high]
+            + gene_b.genetic_code[index_separation_high:]
         )
-        return {"geneA": firstGeneticCode, "geneB": secondGeneticCode}
+        return {"gene_a": first_genetic_code, "gene_b": second_genetic_code}
     return ""

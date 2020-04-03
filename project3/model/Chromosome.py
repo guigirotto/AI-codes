@@ -30,7 +30,6 @@ class Chromosome:
             #  print(f"{i} - {self.genetic_code[i]} -> {self.genetic_code[i + 1]} : Distance: {distance} ")
             new_fitness = new_fitness + distance
 
-
         new_fitness = new_fitness + matrix.item(
             (value_matrix(self.genetic_code[17]), value_matrix(self.genetic_code[18]))
         )

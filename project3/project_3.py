@@ -34,7 +34,6 @@ def run_teste():
     print(1 / teste.fitness)
 
 
-
 def run_genetic_algoritm_2():
     # Use only to test
     print("--- ATENTION: Do not forget to erase the test code input ---- ")
@@ -132,7 +131,9 @@ def run_genetic_algoritm_2():
         for index, item in enumerate(new_chromosome_list):
             #  Keep the elitism without mutations
             if not (index < input_result.elitism_size):
-                new_chromosome_list[index].make_mutation(input_result.mutation_probability)
+                new_chromosome_list[index].make_mutation(
+                    input_result.mutation_probability
+                )
 
         #  Calculating new fitness after mutations
         for index, item in enumerate(new_chromosome_list):

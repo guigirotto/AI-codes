@@ -532,7 +532,7 @@ def return_cities():
 
 
 def new_verify_list(chromosome_list):
-    for city in  return_cities():
+    for city in return_cities():
         if city not in chromosome_list:
             print(chromosome_list)
             return False
@@ -540,7 +540,7 @@ def new_verify_list(chromosome_list):
 
 
 def verify_list(chromosomes_list):
-    cities={}
+    cities = {}
     cities["uberlandia"] = 0
     cities["araxa"] = 0
     cities["patos_de_minas"] = 0
@@ -581,7 +581,7 @@ def verify_list(chromosomes_list):
     for item in newList:
         if item in new_finally_list:
             new_finally_list.append(empty[index_empty])
-            index_empty+=1
+            index_empty += 1
         else:
             new_finally_list.append(item)
 
@@ -594,6 +594,7 @@ def verify_list(chromosomes_list):
 def ultimate_correction_genetic_code_amen(genetic_fucking_code):
 
     pass
+
 
 def get_best_chromosome(chromosomes_list):
     best_chromosome = chromosomes_list[0]
@@ -750,7 +751,7 @@ def make_roullete(genetic_algorithm, generation):
         while first_dad == second_dad and i < 10:
             # print(first_dad.probability)
             second_dad = select_chromosome_for_crossover(genetic_algorithm)
-            i+=1
+            i += 1
 
         # Test if the chromosomes can make a crossover. If not, keep the selected dads  for the next generation.
         if probability > genetic_algorithm.crossing_probability:

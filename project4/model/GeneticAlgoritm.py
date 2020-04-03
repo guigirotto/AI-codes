@@ -1,73 +1,74 @@
 class GeneticAlgoritm:
 
-    currentChromossomeList = []
-    bestChromossome = ""
-    bestChromossomeGeneration = ""
-    bestChromossomeFitness = 0
+    current_chromosome_list = []
+    best_chromosome = ""
+    best_chromosome_generation = ""
+    best_chromosome_fitness = 0
 
     def __init__(
         self,
-        chromossomeSize,
-        populationSize,
-        crossingProbability,
-        mutationProbability,
-        methodOfSelection,
-        elitismSize,
-        quantityOfCrossing,
-        quantityOfGeneration,
+        chromosome_size,
+        population_size,
+        crossing_probability,
+        mutation_probability,
+        method_of_selection,
+        elitism_size,
+        quantity_of_crossing,
+        quantity_of_generation,
     ):
-        self.populationSize = int(populationSize)
-        self.crossingProbability = int(crossingProbability)
-        self.mutationProbability = int(mutationProbability)
-        self.elitismSize = int(elitismSize)
-        self.quantityOfCrossing = int(quantityOfCrossing)
-        self.quantityOfGeneration = int(quantityOfGeneration)
-        self.chromossomeSize = int(chromossomeSize)
-        self.methodOfSelection = int(methodOfSelection)
+
+        self.population_size = int(population_size)
+        self.crossing_probability = int(crossing_probability)
+        self.mutation_probability = int(mutation_probability)
+        self.elitism_size = int(elitism_size)
+        self.quantity_of_crossing = int(quantity_of_crossing)
+        self.quantity_of_generation = int(quantity_of_generation)
+        self.chromosome_size = int(chromosome_size)
+        self.method_of_selection = int(method_of_selection)
         self.minSpanX = -3.1
         self.maxSpanX = 12.1
         self.minSpanY = 4.1
         self.maxSpanY = 5.8
+        self.tournament_size = 0
 
-    def setTournmentSize(self, tournmentSize):
-        self.tournmentSize = int(tournmentSize)
+    def set_tournament_size(self, tournament_size):
+        self.tournament_size = int(tournament_size)
 
-    def getConvertionFromBinaryToRealX(self, numberOnBaseTen):
-        numberConverted = self.minSpanX + (
-            (self.maxSpanX - self.minSpanX) / (2 ** (self.chromossomeSize / 2) - 1)
-        ) * int(numberOnBaseTen, 2)
-        return numberConverted
+    def get_conversion_from_binary_to_real_x(self, number_on_base_ten):
+        number_converted = self.minSpanX + (
+            (self.maxSpanX - self.minSpanX) / (2 ** (self.chromosome_size / 2) - 1)
+        ) * int(number_on_base_ten, 2)
+        return number_converted
 
-    # TO DO
-    def getConvertionFromBinaryToRealY(self, numberOnBaseTen):
-        numberConverted = self.minSpanY + (
-            (self.maxSpanY - self.minSpanY) / (2 ** (self.chromossomeSize / 2) - 1)
-        ) * int(numberOnBaseTen, 2)
-        return numberConverted
+    def get_conversion_from_binary_to_real_y(self, number_on_base_ten):
+        number_converted = self.minSpanY + (
+            (self.maxSpanY - self.minSpanY) / (2 ** (self.chromosome_size / 2) - 1)
+        ) * int(number_on_base_ten, 2)
+        return number_converted
 
-    def setBestChromossome(self, newChromossome, generation, fitness):
-        self.bestChromossome = newChromossome
-        self.bestChromossomeGeneration = generation
-        self.bestChromossomeFitness = fitness
+    def set_best_chromosome(self, new_chromosome, generation, fitness):
+        self.best_chromosome = new_chromosome
+        self.best_chromosome_generation = generation
+        self.best_chromosome_fitness = fitness
         print(
-            "CURRENT BEST CHRMOSSOME: "
-            + newChromossome
+            "CURRENT BEST CHROMOSOME: "
+            + new_chromosome
             + "\nGeneration: "
             + str(generation)
             + "\nFitness: "
             + str(fitness)
         )
 
-    def getTotalFitness(self):
+    def get_total_fitness(self):
         total = 0.0
-        for i in self.currentChromossomeList:
+        for i in self.current_chromosome_list:
             total += i.fitness
         return total
 
-    def printChromossomes(self):
-        for i in self.currentChromossomeList:
+    def print_chromosomes(self):
+        for i in self.current_chromosome_list:
             print(
-                str(i.geneticCode)
+                str(i.genetic_code)
                 + " - F: "
                 + str(i.fitness)
                 + "- P: "

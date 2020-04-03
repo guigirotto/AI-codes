@@ -1,11 +1,12 @@
-class Chromossome:
-    def __init__(self, geneticCode, generation):
-        self.geneticCode = geneticCode
+class Chromosome:
+    def __init__(self, genetic_code, generation):
+        self.genetic_code = genetic_code
         self.fitness = 0
         self.generation = generation
+        self.probability = 0
 
-    def setFitness(self, newFitness):
-        self.fitness = newFitness
+    def set_fitness(self, new_fitness):
+        self.fitness = new_fitness
 
-    def setProbability(self, newProbability):
-        self.probability = newProbability
+    def set_probability(self, new_probability):
+        self.probability = new_probability

@@ -3,47 +3,48 @@ from project4.model.GeneticAlgoritm import GeneticAlgoritm
 
 
 def get_values_from_user():
-    chromossomeSize = input("Inform a chromossome size: ")
-    populationSize = input("Inform a population size: ")
-    crossingProbability = input("Inform a crossing possibility: ")
-    mutationProbability = input("Inform a mutation probability: ")
-    quantityOfGeneration = input("Inform the quantity of generations: ")
-    methodOfSelection = input(
+    chromosome_size = input("Inform a chromosome size: ")
+    population_size = input("Inform a population size: ")
+    crossing_probability = input("Inform a crossing possibility: ")
+    mutation_probability = input("Inform a mutation probability: ")
+    quantity_of_generation = input("Inform the quantity of generations: ")
+    method_of_selection = input(
         "Inform a selection method to the algoritm \n 1 - Roullete \n 2 - Tournment \n"
     )
     if not (
-        methodOfSelection.isdigit()
-        and (methodOfSelection == "1" or methodOfSelection == "2")
+        method_of_selection.isdigit()
+        and (method_of_selection == "1" or method_of_selection == "2")
     ):
         print("Invalid option !")
         return False
-    if methodOfSelection == "2":
-        tournmentSize = input("Inform the tournment size: ")
-    elitismSize = input("Inform the elitism size: ")
-    quantityOfCrossing = input("Inform the quantity of crossing: ")
-    resultOfCheck = check_if_user_type_only_digits(
-        chromossomeSize,
-        populationSize,
-        crossingProbability,
-        mutationProbability,
-        methodOfSelection,
-        elitismSize,
-        quantityOfCrossing,
-        quantityOfGeneration,
+    tournament_size = 0
+    if method_of_selection == "2":
+        tournament_size = input("Inform the tournment size: ")
+    elitism_size = input("Inform the elitism size: ")
+    quantity_of_crossing = input("Inform the quantity of crossing: ")
+    result_of_check = check_if_user_type_only_digits(
+        chromosome_size,
+        population_size,
+        crossing_probability,
+        mutation_probability,
+        method_of_selection,
+        elitism_size,
+        quantity_of_crossing,
+        quantity_of_generation,
     )
-    if resultOfCheck:
-        geneticAlgoritm = GeneticAlgoritm(
-            chromossomeSize,
-            populationSize,
-            crossingProbability,
-            mutationProbability,
-            methodOfSelection,
-            elitismSize,
-            quantityOfCrossing,
-            quantityOfGeneration,
+    if result_of_check:
+        genetic_algoritm = GeneticAlgoritm(
+            chromosome_size,
+            population_size,
+            crossing_probability,
+            mutation_probability,
+            method_of_selection,
+            elitism_size,
+            quantity_of_crossing,
+            quantity_of_generation,
         )
-        if geneticAlgoritm.methodOfSelection == 2:
-            geneticAlgoritm.setTournmentSize(tournmentSize)
-        return geneticAlgoritm
+        if genetic_algoritm.method_of_selection == 2:
+            genetic_algoritm.set_tournament_size(tournament_size)
+        return genetic_algoritm
     else:
         return False
