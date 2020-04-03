@@ -165,7 +165,7 @@ def make_crossover(genetic_algorithm, generation):
 
         for index, item in enumerate(new_genetic_code_list):
             if not (index < genetic_algorithm.elitism_size):
-                new_chromosome = Chromosome(item, generation)
+                new_chromosome = Chromosome(genetic_code=item, generation=generation)
                 chromosomes_list.append(new_chromosome)
 
         return chromosomes_list
@@ -232,7 +232,7 @@ def make_crossover(genetic_algorithm, generation):
 
         for index, item in enumerate(new_genetic_code_list):
             if not (index < genetic_algorithm.elitism_size):
-                new_chromosome = Chromosome(item, generation)
+                new_chromosome = Chromosome(genetic_code=item, generation=generation)
                 chromosomes_list.append(new_chromosome)
 
         return chromosomes_list
@@ -296,8 +296,8 @@ def run_tournament_selection(genetic_algoritm, generation):
             genetic_algoritm.quantity_of_crossing,
         )
 
-        new_chromosome1 = Chromosome(new_chromosomes["gene_a"], generation)
-        new_chromosome2 = Chromosome(new_chromosomes["gene_b"], generation)
+        new_chromosome1 = Chromosome(genetic_code=new_chromosomes["gene_a"], generation=generation)
+        new_chromosome2 = Chromosome(genetic_code=new_chromosomes["gene_b"], generation=generation)
 
         new_list.append(new_chromosome1)
         new_list.append(new_chromosome2)
@@ -326,8 +326,8 @@ def make_tournament_selection(genetic_algoritmh):
         selection_list.append(index)
         list_of_chromosomes.append(genetic_algoritmh.current_chromosome_list[index])
 
-    best_chromosome = Chromosome(0, 0)
-    second_best_chromosome = Chromosome(0, 0)
+    best_chromosome = Chromosome(genetic_code=0, generation=0)
+    second_best_chromosome = Chromosome(genetic_code=0, generation=0)
     for item in list_of_chromosomes:
         if item.fitness > best_chromosome.fitness:
             second_best_chromosome = best_chromosome

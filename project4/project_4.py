@@ -1,7 +1,7 @@
 #
-# Artificial intelligence - Project 1
+# Artificial intelligence - Project 4
 # Computer Engineering - Semester 9
-# Genetic Algoritm - Using Roullete or Tornament method
+# Genetic Algoritm With real chromosome - Using Roullete or Tornament method
 # Date February 09, 2020
 #
 from project4.view.result_display import show_chart
@@ -17,8 +17,17 @@ def run_genetic_algoritm():
 
     # Use only to test
     print("---ATENTION: Do not forget to erase the test code input ---- ")
-    input_result: GeneticAlgoritm = GeneticAlgoritm(20, 20, 30, 10, 2, 0, 1, 50)
-    input_result.set_tournament_size(4)
+    input_result: GeneticAlgoritm = GeneticAlgoritm(
+        chromosome_size=10,
+        population_size=50,
+        crossing_probability=70,
+        mutation_probability=40,
+        method_of_selection=2,
+        elitism_size=0,
+        quantity_of_crossing=2,
+        quantity_of_generation=500,
+    )
+    input_result.set_tournament_size(10)
 
     if not input_result:
         print("Ops, something went wrong")
@@ -41,7 +50,7 @@ def run_genetic_algoritm():
     # converting the chromossome and populate the current list
     for item in chromosome_binary_list:
         new_chromosome = Chromosome(
-            format_binary_code(item, input_result.chromosome_size), actual_generation
+            genetic_code=format_binary_code(item, input_result.chromosome_size),generation=actual_generation
         )
         bin_x, bin_y = (
             new_chromosome.genetic_code[: int(len(new_chromosome.genetic_code) / 2)],
