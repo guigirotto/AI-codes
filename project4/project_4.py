@@ -20,14 +20,14 @@ def run_genetic_algoritm():
     input_result: GeneticAlgoritm = GeneticAlgoritm(
         chromosome_size=2,
         population_size=50,
-        crossing_probability=40,
-        mutation_probability=80,
+        crossing_probability=70,
+        mutation_probability=20,
         method_of_selection=2,
         elitism_size=1,
-        method_of_crossing=1,
+        method_of_crossing=2,
         quantity_of_generation=50,
     )
-    input_result.set_tournament_size(16)
+    input_result.set_tournament_size(6)
 
     if not input_result:
         print("Ops, something went wrong")
@@ -168,7 +168,9 @@ def run_genetic_algoritm():
 
         best_chromosome = best_chromosome_generation
         best_chromosome_list.append(best_chromosome)
-
+        # print(f"GENERATION: {actual_generation}")
+        # print(input_result.print_chromosomes())
+        # print('\n\n--------------------------------------------------\n')
         actual_generation += 1
 
     #  End while

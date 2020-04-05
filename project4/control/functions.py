@@ -343,7 +343,7 @@ def run_tournament_selection(genetic_algoritm, generation):
                 crossing_probability=genetic_algoritm.crossing_probability,
                 genetic_algorithm=genetic_algoritm,
             )
-            if not check_if_can_add_genetic_codes(
+            if new_chromosomes is not None and not check_if_can_add_genetic_codes(
                 new_list, new_chromosomes["gene_a"], new_chromosomes["gene_b"]
             ):
                 new_chromosomes = None
