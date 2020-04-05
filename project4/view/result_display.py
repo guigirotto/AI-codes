@@ -23,20 +23,21 @@ def show_chart(
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
 
-    x = np.arange(-3.1, 12.1, 0.01)
-    y = np.arange(4.1, 5.8, 0.01)
+    x = np.arange(-10, 12, 0.1)
+    y = np.arange(-10, 12, 0.1)
     X, Y = np.meshgrid(x, y)
-    Z = 21.5 + X * np.sin(4 * math.pi * X) + Y * np.sin(20 * math.pi * Y)
-    bin_x, bin_y = (
-        best_chromosome_list[index].genetic_code[
-            : int(len(best_chromosome_list[index].genetic_code) / 2)
-        ],
-        best_chromosome_list[index].genetic_code[
-            int(len(best_chromosome_list[index].genetic_code) / 2) :
-        ],
+    #  Z = 21.5 + X * np.sin(4 * math.pi * X) + Y * np.sin(20 * math.pi * Y)
+    Z = (
+        15
+        + (((X - 3) ** 2) / 2)
+        + (((Y - 3) ** 2) / 2)
+        - 2 * (np.sin(4 * X - 3) + np.sin(4 * Y - 3))
     )
-    real_x = genetic_algoritm.get_conversion_from_binary_to_real_x(bin_x)
-    real_y = genetic_algoritm.get_conversion_from_binary_to_real_y(bin_y)
+
+    gene_x = best_chromosome_list[index].genetic_code[0]
+    gene_y = best_chromosome_list[index].genetic_code[1]
+    real_x = genetic_algoritm.get_conversion_from_gene_to_real(gene_x)
+    real_y = genetic_algoritm.get_conversion_from_gene_to_real(gene_y)
     zdata = calculate_fitness(real_x, real_y)
     xdata = real_x
     ydata = real_y
@@ -57,21 +58,16 @@ def show_chart(
         bin_y = 0
         zdata = 0
         if index < len(best_chromosome_list):
-            bin_x, bin_y = (
-                best_chromosome_list[index].genetic_code[
-                    : int(len(best_chromosome_list[index].genetic_code) / 2)
-                ],
-                best_chromosome_list[index].genetic_code[
-                    int(len(best_chromosome_list[index].genetic_code) / 2) :
-                ],
-            )
-            real_x = genetic_algoritm.get_conversion_from_binary_to_real_x(bin_x)
-            real_y = genetic_algoritm.get_conversion_from_binary_to_real_y(bin_y)
+
+            gene_x = best_chromosome_list[index].genetic_code[0]
+            gene_y = best_chromosome_list[index].genetic_code[1]
+            real_x = genetic_algoritm.get_conversion_from_gene_to_real(gene_x)
+            real_y = genetic_algoritm.get_conversion_from_gene_to_real(gene_y)
             zdata = calculate_fitness(real_x, real_y)
-            print(zdata)
+
+            # print(zdata)
             for s in sc:
                 s.remove()
-
             sc = []
 
             sc.append(ax.scatter(real_x, real_y, zdata, c="r", marker="o"))
@@ -81,7 +77,7 @@ def show_chart(
 
     finish = int(len(best_chromosome_list))
 
-    ani = animation.FuncAnimation(fig, animate, interval=2000)
+    ani = animation.FuncAnimation(fig, animate, interval=100)
     plt.show()
 
 
@@ -98,7 +94,7 @@ def show_chart2(best_chromosome_list, quantity_of_generation):
 
     fig = plt.figure(1)
     plt.xlim(0, quantity_of_generation)
-    plt.ylim(0, 40)
+    plt.ylim(0, 50)
     (graph,) = plt.plot([], [], lw=3)
     plt.grid(
         axis="both",
@@ -122,5 +118,5 @@ def show_chart2(best_chromosome_list, quantity_of_generation):
         graph.set_data(generation_list[: i + 1], fitness_list[: i + 1])
         return graph
 
-    ani = FuncAnimation(fig, animate, interval=200)
+    ani = FuncAnimation(fig, animate, interval=100)
     plt.show()
