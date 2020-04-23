@@ -73,7 +73,24 @@ def run_neural_network():
         actual_cycle += 1
     #END TRAINING
     
+    # TESTING THE TRAINING
+    xteste = loaded_txt_entries[3,:]
+    
+    for m2 in range(classes_size):
+        total_sum = 0
+        for n2 in range(entries_size):
+            total_sum = total_sum + xteste[n2] * v[n2][m2]
+            yin[m2] = total_sum + v0[m2]   
 
+    print(yin)
+    for j in range(classes_size):
+        if(yin[j] >= threshold):
+            y[j] = 1.0
+        else:
+            y[j] = 0.0
+    print(y)
+    
+    
      
    
 
