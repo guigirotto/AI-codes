@@ -85,20 +85,15 @@ def show_chart(
     plt.show()
 
 
-def show_chart2(best_chromosome_list, quantity_of_generation):
+def show_chart2(errors_list, cycles_list):
     from matplotlib.animation import FuncAnimation
     import matplotlib.pyplot as plt
 
-    fitness_list = []
-    generation_list = []
+    
 
-    for bestChromosome in best_chromosome_list:
-        fitness_list.append(bestChromosome.fitness * 100)
-        generation_list.append(bestChromosome.generation)
-    print(generation_list)
     fig = plt.figure(1)
-    plt.xlim(0, quantity_of_generation)
-    plt.ylim(0, 1)
+    plt.xlim(0, len(cycles_list))
+    plt.ylim(0, 60)
     (graph,) = plt.plot([], [], lw=3)
     plt.grid(
         axis="both",
@@ -115,11 +110,11 @@ def show_chart2(best_chromosome_list, quantity_of_generation):
         linestyle=":",
         linewidth=2,
     )
-    plt.xlabel("Generation")
-    plt.ylabel("Fitness")
+    plt.xlabel("Ciclos")
+    plt.ylabel("Erro")
 
     def animate(i):
-        graph.set_data(generation_list[: i + 1], fitness_list[: i + 1])
+        graph.set_data(cycles_list[: i + 1],errors_list[: i + 1])
         return graph
 
     ani = FuncAnimation(fig, animate, interval=100)

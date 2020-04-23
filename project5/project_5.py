@@ -5,6 +5,7 @@ from project5.control.functions import *
 import random
 import matplotlib.pyplot as plt
 import copy
+from project5.view.result_display import show_chart2
 
 
 def run_neural_network():
@@ -73,6 +74,14 @@ def run_neural_network():
         actual_cycle += 1
     #END TRAINING
     
+
+    show_chart2(vetor2,vetor1)
+    plt.scatter(vetor1,vetor2,color='blue')
+    plt.xlabel("Ciclos")
+    plt.ylabel("Erro")
+    plt.show()
+
+
     # TESTING THE TRAINING
     xteste = loaded_txt_entries[3,:]
     
