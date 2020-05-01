@@ -1,11 +1,13 @@
 import os 
 import numpy as np
 from project5.model.NeuralNetwork import NeuralNetwork
+from project5.model.Checkbar import Checkbar
 from project5.control.functions import *
 import random
 import matplotlib.pyplot as plt
 import copy
 from project5.view.result_display import show_chart2
+from tkinter import *
 
 
 def run_neural_network():
@@ -17,6 +19,7 @@ def run_neural_network():
         learning_rate = 0.01,
         max_cycles= 10,
         actual_cycle = 0,
+        interaction_type=1,
     )
 
     # TRAINING START
@@ -27,7 +30,6 @@ def run_neural_network():
     (classes_size,targets_size) = np.shape(loaded_txt_targets)
 
     
-
 
 
     v = intiate_syntactic_weights_matrix(entries_size,classes_size)
@@ -114,24 +116,79 @@ def run_neural_network():
     plt.show()
 
 
-    # TESTING THE TRAINING
-    xteste = loaded_txt_entries[3,:]
-    
-    for m2 in range(classes_size):
-        total_sum = 0
-        for n2 in range(entries_size):
-            total_sum = total_sum + xteste[n2] * v[n2][m2]
-            yin[m2] = total_sum + v0[m2]   
+    if neural_net.interaction_type == 0:
+        # TESTING THE TRAINING
+        xteste = loaded_txt_entries[3,:]
+        label_text = 'Nada encontrado.'
+        
+        for m2 in range(classes_size):
+            total_sum = 0
+            for n2 in range(entries_size):
+                total_sum = total_sum + xteste[n2] * v[n2][m2]
+                yin[m2] = total_sum + v0[m2]   
 
-    print(yin)
-    for j in range(classes_size):
-        if(yin[j] >= threshold):
-            y[j] = 1.0
-        else:
-            y[j] = 0.0
-    print(y)
+        print(yin)
+        for j in range(classes_size):
+            if(yin[j] >= threshold):
+                y[j] = 1.0
+                label_text = 'O numero é ' + str((j + 1))
+                if j + 1 == 10:
+                    label_text = 'O numero é 0'
+
+            else:
+                y[j] = 0.0
+        print(y)
+        print(label_text)
+        
     
-    
+    else:
+        root = Tk()
+        first_line = Checkbar(root, ['', '', '','',''])
+        second_line = Checkbar(root, ['', '', '','',''])
+        third_line = Checkbar(root, ['', '', '','',''])
+        fourth_line = Checkbar(root, ['', '', '','',''])
+        fifth_line = Checkbar(root, ['', '', '','',''])
+        sixth_line = Checkbar(root, ['', '', '','',''])
+        seventh_line = Checkbar(root, ['', '', '','',''])
+        first_line.pack(side=TOP)
+        second_line.pack(side=TOP)
+        third_line.pack(side=TOP)
+        fourth_line.pack(side=TOP)
+        fifth_line.pack(side=TOP)
+        sixth_line.pack(side=TOP)
+        seventh_line.pack(side=TOP)
+        
+        
+        def allstates(): 
+            xteste = list(first_line.state()) + list(second_line.state()) + list(third_line.state())  + list(fourth_line.state()) + list(fifth_line.state()) + list(sixth_line.state()) + list(seventh_line.state())
+            label_text = 'Nada encontrado.'
+        
+            for m2 in range(classes_size):
+                total_sum = 0
+                for n2 in range(entries_size):
+                    total_sum = total_sum + xteste[n2] * v[n2][m2]
+                    yin[m2] = total_sum + v0[m2]   
+
+            
+            print(yin)
+            for j in range(classes_size):
+                if(yin[j] >= threshold):
+                    y[j] = 1.0
+                    label_text = 'O numero é ' + str((j + 1))
+                    if j + 1 == 10:
+                        label_text = 'O numero é 0'
+                        
+                    
+                else:
+                    y[j] = 0.0
+            print(y)
+            print(xteste)
+            Label(root,text=label_text).pack()
+        
+        
+        Button(root, text='Peek', command=allstates).pack(side=TOP)
+        root.mainloop()
+
      
    
 
