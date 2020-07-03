@@ -5,18 +5,30 @@ import matplotlib.pyplot as plt
 
 
 def run_neural_network_7():
+    os.system('clear')
     os.chdir(r"project7/digitos/digitostreinamento")
+    # Lendo o arquivo de saídas esperadas
+    t = np.loadtxt("target10.csv", delimiter=";", skiprows=0)
+    (vsai, numclasses) = np.shape(t)
     # Inicializando variaveis
-    ampdigitos = 40
+    ampdigitos = 50
     vsai = 10
     amostras = ampdigitos * vsai
     entradas = 256
-    neur = 200
+    neur = 50
     limiar = 0.0
     alfa = 0.005
-    errotolerado = 0.1
+    errotolerado = 5
     listaciclo = []
     listaerro = []
+
+    #  Parametros da tx adaptativa
+    dec = 0.7
+    u = 1.05
+    theta = 1.0e-100
+    alfa_aux = 0.7
+    erro_temporario = 0.0
+    media_delta_aux_ant = 0
 
     # Montando o arquivo de amostras de treinamento
     x = np.zeros((amostras, entradas))
@@ -39,12 +51,9 @@ def run_neural_network_7():
 
     ordem = ordem.astype("int")
 
-    # Lendo o arquivo de saídas esperadas
-    t = np.loadtxt("target10.csv", delimiter=";", skiprows=0)
-
     # Gerando os pesos sinapticos aleatoriamente
     vanterior = np.zeros((entradas, neur))
-    aleatorio = 0.2
+    aleatorio = 0.5
     for i in range(entradas):
         for j in range(neur):
             vanterior[i][j] = rd.uniform(-aleatorio, aleatorio)
@@ -55,7 +64,7 @@ def run_neural_network_7():
         v0anterior[0][j] = rd.uniform(-aleatorio, aleatorio)
 
     wanterior = np.zeros((neur, vsai))
-    aleatorio = 0.2
+    #  aleatorio = 0.5
     for i in range(neur):
         for j in range(vsai):
             wanterior[i][j] = rd.uniform(-aleatorio, aleatorio)
@@ -69,6 +78,12 @@ def run_neural_network_7():
     v0novo = np.zeros((1, neur))
     wnovo = np.zeros((neur, vsai))
     w0novo = np.zeros((1, vsai))
+
+    delta_w_aux = np.zeros((vsai, neur))
+    delta_w0_aux = np.zeros((vsai, 1))
+    delta_v_aux = np.zeros((neur, entradas))
+    delta_v0_aux = np.zeros((1, neur))
+
     zin = np.zeros((1, neur))
     z = np.zeros((1, neur))
     deltinhak = np.zeros((vsai, 1))
@@ -83,7 +98,7 @@ def run_neural_network_7():
 
     # Começo do treinamento da rede
 
-    while errotolerado < errototal:
+    while errotolerado < errototal and ciclo < 100:
         errototal = 0
         for padrao in range(amostras):
             for j in range(neur):
@@ -124,19 +139,39 @@ def run_neural_network_7():
             v0anterior = v0novo
             wanterior = wnovo
             w0anterior = w0novo
+
+            delta_w_aux = deltaw
+            delta_w0_aux = deltaw0
+            delta_v_aux = deltav
+            delta_v0_aux = deltav0
+
         ciclo = ciclo + 1
         listaciclo.append(ciclo)
         listaerro.append(errototal)
         print("Ciclo e Erro")
         print(ciclo, errototal)
+        #  Trabalhando com o alfa adaptativo
+        if ciclo > 1:
+            delta_aux = (errototal - erro_temporario) / errototal
+            media_delta_aux = (
+                alfa_aux * delta_aux + (1 - alfa_aux) * media_delta_aux_ant
+            )
+            if (delta_aux * media_delta_aux_ant < 0) and (
+                abs(media_delta_aux_ant)
+            ) > theta:
+                alfa = dec * alfa
+            else:
+                alfa = u * alfa
+            media_delta_aux_ant = media_delta_aux
+        erro_temporario = errototal
 
     plt.plot(listaciclo, listaerro)
     plt.xlabel("Ciclo")
     plt.ylabel("Erro")
     plt.show()
     ###Teste automático da rede
-    aminicial = 20
-    amtestedigitos = 30
+    aminicial = 51
+    amtestedigitos = 38
     yteste = np.zeros((vsai, 1))
     cont = 0
     contcerto = 0
@@ -148,7 +183,7 @@ def run_neural_network_7():
             k3 = str(k3a)
             nome = k1 + k2 + k3 + k4
             xteste = np.loadtxt(nome)
-            print(nome)
+            #  print(nome)
 
             for m2 in range(vsai):
                 for n2 in range(neur):
@@ -157,24 +192,37 @@ def run_neural_network_7():
                 yin = np.dot(z, wanterior) + w0anterior
                 y = np.tanh(yin)
 
-        for j in range(vsai):
-            if y[0][j] >= limiar:
-                y[0][j] = 1.0
+            distancia_euclidiana = np.zeros((1, numclasses))
+            for j in range(numclasses):
+                dist_aux = 0
+                for m3 in range(vsai):
+                    dist_aux = dist_aux + (y[0][m3] - t[m3][j]) ** 2
+                distancia_euclidiana[0][j] = np.sqrt(dist_aux)
+            indice = distancia_euclidiana.argmin()
+            if indice == m:
+                print(f"{nome} - correto")
+                contcerto = contcerto + 1
             else:
-                y[0][j] = -1.0
-
-        for j in range(vsai):
-            yteste[j][0] = y[0][j]
-
-        for j in range(vsai):
-            target[j][0] = t[0][j]
-
-        soma = np.sum(y - target)
-
-        if soma == 0:
-            contcerto = contcerto + 1
-
-        cont = cont + 1
+                print(f"{nome} - incorreto")
+            cont = cont + 1
+            # for j in range(vsai):
+            #     if yin[0][j] >= limiar:
+            #         y[0][j] = 1.0
+            #     else:
+            #         y[0][j] = -1.0
+            #
+            # for j in range(vsai):
+            #     yteste[j][0] = y[0][j]
+            #
+            # for j in range(vsai):
+            #     target[j][0] = t[0][j]
+            #
+            # soma = np.sum(y - target)
+            #
+            # if soma == 0:
+            #     contcerto = contcerto + 1
+            #
+            # cont = cont + 1
 
     taxa = contcerto / cont
     print("A taxa é: ")
