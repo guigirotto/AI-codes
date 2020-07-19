@@ -3,16 +3,16 @@ import random as rd
 import os
 import matplotlib.pyplot as plt
 def run_neural_network2():
-    os.chdir(r'C:/Users/Adilson/Documents/AI-codes/project6/digitos/digitostreinamento')
+    os.chdir(r'project6/digitos/digitostreinamento')
     #Inicializando variaveis
     ampdigitos = 60
     vsai = 10
     amostras = ampdigitos * vsai
     entradas = 256
-    neur = 200
+    neur = 50
     limiar = 0.0
     alfa = 0.005
-    errotolerado = 0.6
+    errotolerado = 0.1
     listaciclo = []
     listaerro = []
 
@@ -38,7 +38,7 @@ def run_neural_network2():
     ordem = ordem.astype('int')
 
     #Lendo o arquivo de saídas esperadas
-    t = np.loadtxt('target10.csv',delimiter=';',skiprows=0)
+    t = np.loadtxt('targetExpanded.csv',delimiter=';',skiprows=0)
 
     #Gerando os pesos sinapticos aleatoriamente
     vanterior = np.zeros((entradas,neur))
@@ -134,8 +134,8 @@ def run_neural_network2():
     plt.ylabel("Erro")
     plt.show()
     ###Teste automático da rede
-    aminicial=20
-    amtestedigitos=30
+    aminicial=61
+    amtestedigitos=29
     yteste=np.zeros((vsai,1))
     cont=0
     contcerto=0

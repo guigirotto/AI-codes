@@ -8,17 +8,17 @@ def run_neural_network_7():
     os.system('clear')
     os.chdir(r"project7/digitos/digitostreinamento")
     # Lendo o arquivo de saídas esperadas
-    t = np.loadtxt("target10.csv", delimiter=";", skiprows=0)
+    t = np.loadtxt("targetExpanded.csv", delimiter=";", skiprows=0)
     (vsai, numclasses) = np.shape(t)
     # Inicializando variaveis
-    ampdigitos = 50
-    vsai = 10
+    ampdigitos = 70
+    #vsai = 10
     amostras = ampdigitos * vsai
     entradas = 256
-    neur = 50
+    neur = 80
     limiar = 0.0
     alfa = 0.005
-    errotolerado = 5
+    errotolerado = 45
     listaciclo = []
     listaerro = []
 
@@ -26,7 +26,7 @@ def run_neural_network_7():
     dec = 0.7
     u = 1.05
     theta = 1.0e-100
-    alfa_aux = 0.7
+    alfa_aux = 0.1
     erro_temporario = 0.0
     media_delta_aux_ant = 0
 
@@ -37,7 +37,7 @@ def run_neural_network_7():
     cont = 0
     ordem = np.zeros(amostras)
 
-    for m in range(vsai):
+    for m in range(10):
         k1 = str(m)
 
         for n in range(ampdigitos):
@@ -98,7 +98,7 @@ def run_neural_network_7():
 
     # Começo do treinamento da rede
 
-    while errotolerado < errototal and ciclo < 100:
+    while errotolerado < errototal and ciclo < 5:
         errototal = 0
         for padrao in range(amostras):
             for j in range(neur):
@@ -170,8 +170,8 @@ def run_neural_network_7():
     plt.ylabel("Erro")
     plt.show()
     ###Teste automático da rede
-    aminicial = 51
-    amtestedigitos = 38
+    aminicial = 70
+    amtestedigitos = 20
     yteste = np.zeros((vsai, 1))
     cont = 0
     contcerto = 0

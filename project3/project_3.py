@@ -34,7 +34,6 @@ def run_teste():
     print(1 / teste.fitness)
 
 
-
 def run_genetic_algoritm_2():
     # Use only to test
     print("--- ATENTION: Do not forget to erase the test code input ---- ")
