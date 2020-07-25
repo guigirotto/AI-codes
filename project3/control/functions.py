@@ -591,10 +591,6 @@ def verify_list(chromosomes_list):
     return new_finally_list
 
 
-def ultimate_correction_genetic_code_amen(genetic_fucking_code):
-
-    pass
-
 def get_best_chromosome(chromosomes_list):
     best_chromosome = chromosomes_list[0]
     for i in range(len(chromosomes_list)):

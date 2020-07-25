@@ -39,13 +39,13 @@ def run_genetic_algoritm_2():
     print("--- ATENTION: Do not forget to erase the test code input ---- ")
     input_result: GeneticAlgoritm = GeneticAlgoritm(
         chromosome_size=20,
-        population_size=50,
-        crossing_probability=70,
-        mutation_probability=40,
-        method_of_selection=1,
-        elitism_size=2,
+        population_size=80,
+        crossing_probability=80,
+        mutation_probability=30,
+        method_of_selection=2,
+        elitism_size=1,
         quantity_of_crossing=2,
-        quantity_of_generation=100,
+        quantity_of_generation=50,
     )
     input_result.set_tournament_size(20)
 
@@ -84,7 +84,7 @@ def run_genetic_algoritm_2():
 
     while actual_generation < input_result.quantity_of_generation:
         new_chromosome_list = []
-        print(f"Generation: {actual_generation}")
+        #  print(f"Generation: {actual_generation}")
         # crossover
         if input_result.method_of_selection == 1:
             """   for i in range(0,len(input_result.current_chromosome_list),2):
@@ -162,6 +162,8 @@ def run_genetic_algoritm_2():
         )
 
         input_result.current_chromosome_list = new_chromosome_list.copy()
+        print(f"Generation: {actual_generation} - Best distance: {(1/best_chromosome.fitness)**10} - fitness: {best_chromosome.fitness}")
+        # (1/new_fitness)**(1/10)
         actual_generation += 1
 
     # i = 0
@@ -173,7 +175,7 @@ def run_genetic_algoritm_2():
     # for i in range(len(best_chromosome_list)):
     #    print(best_chromosome_list[i].generation, 1 / best_chromosome_list[i].fitness)
     #   print(best_chromosome_list[i].genetic_code)
-    print(1 / best_chromosome_list[-1].fitness)
+    print((1 / best_chromosome_list[-1].fitness)**10)
 
     print(f"Best Route: \n{best_chromosome_list[-1].genetic_code}")
     print(new_verify_list(best_chromosome_list[-1].genetic_code))

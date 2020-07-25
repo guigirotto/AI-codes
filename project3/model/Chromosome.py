@@ -40,7 +40,7 @@ class Chromosome:
         new_fitness = new_fitness + matrix.item(
             (value_matrix(self.genetic_code[18]), value_matrix())
         )
-        self.fitness = 1 / new_fitness
+        self.fitness = (1/new_fitness)**(1/10)
 
     def make_mutation(self, probability):
         mutation_prob = random.randint(0, 100)

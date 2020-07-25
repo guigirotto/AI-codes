@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="cb6f2b3f-5670-4c5c-826a-f0e4aec10760" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project6/project_6.py" beforeDir="false" afterPath="$PROJECT_DIR$/project6/project_6.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project7/digitos/digitostreinamento/w.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project7/digitos/digitostreinamento/w0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project7/project_7.py" beforeDir="false" afterPath="$PROJECT_DIR$/project7/project_7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project3/control/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/project3/control/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project3/model/Chromosome.py" beforeDir="false" afterPath="$PROJECT_DIR$/project3/model/Chromosome.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project3/project_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/project3/project_3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +28,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="project-7-wendler" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,7 +44,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/project6/digitos/digitostreinamento" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../route-optmizer" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
@@ -172,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593739910487</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Some implementations of project 7">
+      <created>1595163134238</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1595163134239</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -183,21 +190,26 @@
     <MESSAGE value="Some implementations of project2" />
     <MESSAGE value="Creating project 7 files" />
     <MESSAGE value="Some updates on function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some updates on function" />
+    <MESSAGE value="Some implementations of project 7" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some implementations of project 7" />
   </component>
   <component name="WindowStateProjectService">
     <state x="309" y="248" key="#xdebugger.evaluate" timestamp="1594724068352">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="309" y="248" key="#xdebugger.evaluate/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1594724068352" />
-    <state x="1092" y="164" width="687" height="817" key="CommitChangelistDialog2" timestamp="1593739910150">
+    <state x="1092" y="164" width="687" height="817" key="CommitChangelistDialog2" timestamp="1595163133655">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1092" y="164" width="687" height="817" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1593739910150" />
-    <state x="292" y="145" width="1536" height="857" key="DiffContextDialog" timestamp="1593739603685">
+    <state x="1092" y="164" width="687" height="817" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1595163133655" />
+    <state x="292" y="145" width="1536" height="857" key="DiffContextDialog" timestamp="1595163120260">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="292" y="145" width="1536" height="857" key="DiffContextDialog/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1593739603685" />
+    <state x="292" y="145" width="1536" height="857" key="DiffContextDialog/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1595163120260" />
+    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl" timestamp="1595163649777">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1595163649777" />
     <state width="1899" height="295" key="GridCell.Tab.0.bottom" timestamp="1594729207990">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -242,6 +254,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="471" y="154" key="SettingsEditor/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1594336577242" />
+    <state x="555" y="255" width="800" height="523" key="Vcs.Push.Dialog.v2" timestamp="1595163159495">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="555" y="255" width="800" height="523" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1595163159495" />
     <state x="653" y="346" key="com.intellij.ide.util.TipDialog" timestamp="1595159231493">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -250,6 +266,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="439" width="380" height="155" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1593739897234" />
+    <state x="652" y="259" width="615" height="520" key="find.popup" timestamp="1595716143084">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="652" y="259" width="615" height="520" key="find.popup/0.0.1920.1040/1920.0.1366.768@0.0.1920.1040" timestamp="1595716143084" />
     <state x="736" y="226" width="438" height="581" key="git4idea.branch.GitSmartOperationDialog" timestamp="1595162207802">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

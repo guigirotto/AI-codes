@@ -7,7 +7,7 @@ from project7.project_7 import run_neural_network_7
 
 #  Algoritm_option = input("Select the project number: ")
 
-algoritm_option = 7
+algoritm_option = 3
 if int(algoritm_option) == 1:
     run_genetic_algoritm()
 elif int(algoritm_option) == 2:
