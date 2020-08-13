@@ -4,7 +4,6 @@ from project1.project_1 import run_genetic_algoritm
 from project5.project_5 import run_neural_network
 from project6.project_6 import run_neural_network2
 from project7.project_7 import run_neural_network_7
-
 #  Algoritm_option = input("Select the project number: ")
 
 algoritm_option = 3
